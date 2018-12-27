@@ -1,33 +1,34 @@
 const express = require('express');
 const router = express.Router();
 
+
 const meetups = [
 {
-  "id" : 1,
-  "createdOn" : "2018/12/25",
-  "location" : "telecom house",
-  "images" : "upload/images/img.png",
-  "topic" : "why javascript is the most use langage?",
-  "happeningOn" : "2018/12/30",
-  "Tags" : "Javascripts librairies, github statistics"
+  id : 1,
+  createdOn : "2018/12/25",
+  location : "telecom house",
+  images : "upload/images/img.png",
+  topic : "why javascript is the most use langage?",
+  happeningOn : "2018/12/30",
+  Tags : "Javascripts librairies, github statistics"
 },
 {
-    "id" : 2,
-    "createdOn" : "2018/12/23",
-    "location" : "telecom house",
-    "images" : "upload/images/img.png",
-    "topic" : "Machine learnings",
-    "happeningOn" : "2018/12/26",
-    "Tags" : "Artificial intelligence (AI)"
+    id : 2,
+    createdOn : "2018/12/23",
+    location : "telecom house",
+    images : "upload/images/img.png",
+    topic : "Machine learnings",
+    happeningOn : "2018/12/26",
+    Tags : "Artificial intelligence (AI)"
   },
   {
-    "id" : 3,
-    "createdOn" : "2018/12/24",
-    "location" : "IPRC Kichukiro",
-    "images" : "upload/images/img.png",
-    "topic" : "Big-O notation",
-    "happeningOn" : "2018/12/27",
-    "Tags" : "# Paul Bachmann, #Edmund Landau"
+    id : 3,
+    createdOn : "2018/12/24",
+    location : "IPRC Kichukiro",
+    images : "upload/images/img.png",
+    topic : "Big-O notation",
+    happeningOn : "2018/12/27",
+    Tags : "# Paul Bachmann, #Edmund Landau"
   },
 
 ];
@@ -38,10 +39,18 @@ router.get('/', (req, res, next)=> {
 });
 
 router.post('/', (req, res, next)=> {
- 
-    res.status(200).json({
-        message : 'Creating a meetup'
-    })
+
+     
+    const meetup = {
+         id: meetups.length +1,
+         topic: req.body.topic,  
+         location: req.body.location,               
+         happeningOn: req.body.happeningOn,
+         Tags: req.body.Tags
+
+    };
+    meetups.push(meetup);
+    res.send(meetup);
 });
 
 router.get('/:meetupId', (req,res,next)=>{
