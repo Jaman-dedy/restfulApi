@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-question = [
+questions = [
     {
         "id" : 1,
         "createdOn" : "2018/12/30",
@@ -33,9 +33,7 @@ question = [
 
 router.get('/', (req, res, next)=> {
  
-    res.status(200).json({
-        message : 'All questions'
-    })
+    res.send(questions);
 });
 
 router.post('/', (req, res, next)=> {
@@ -47,18 +45,9 @@ router.post('/', (req, res, next)=> {
 
 router.get('/:questionId', (req,res,next)=>{
 
-    const id = req.params.questionId;
-    if(id==='special'){
-        res.status(200).json({
-            message : 'a specific question',
-            id : id
-        });
-    } else {
-        res.status(200).json({
-            message : 'one question'
-        });
-    }
-    
+    const question = questions.find(c => c.id ===parseInt(req.params.questionId));
+    if(!question) res.status(404).send('the question with the given id was not found');
+    res.send(question);
 });
 
 router.patch('/:questionId', (req,res,next)=>{
