@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const rsvp = [
+const rsvps = [
     {
         "id" : 1,
         "meetup" : 1,
@@ -24,9 +24,7 @@ const rsvp = [
 
 router.get('/', (req, res, next)=> {
  
-    res.status(200).json({
-        message : 'All RSP'
-    })
+    res.send(rsvps);
 });
 
 router.post('/', (req, res, next)=> {
@@ -38,17 +36,9 @@ router.post('/', (req, res, next)=> {
 
 router.get('/:rsvpId', (req,res,next)=>{
 
-    const id = req.params.rsvpId;
-    if(id==='special'){
-        res.status(200).json({
-            message : 'a specific question',
-            id : id
-        });
-    } else {
-        res.status(200).json({
-            message : 'one question'
-        });
-    }
+    const rsvp = rsvps.find(c => c.id === parseInt(req.params.rsvpId));
+    if(!rsvp) res.status(404).send('Not such Rsvp has ben planed');
+    res.send(rsvp);
     
 });
 
