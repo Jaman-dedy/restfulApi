@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const meetup = [
+const meetups = [
 {
   "id" : 1,
   "createdOn" : "2018/12/25",
@@ -34,9 +34,7 @@ const meetup = [
 
 router.get('/', (req, res, next)=> {
  
-    res.status(200).json({
-        message : 'All meetups'
-    })
+    res.send(meetups);
 });
 
 router.post('/', (req, res, next)=> {
@@ -48,17 +46,9 @@ router.post('/', (req, res, next)=> {
 
 router.get('/:meetupId', (req,res,next)=>{
 
-    const id = req.params.meetupId;
-    if(id==='special'){
-        res.status(200).json({
-            message : 'You discovered the special ID',
-            id : id
-        });
-    } else {
-        res.status(200).json({
-            message : 'one meetup'
-        });
-    }
+    const meetup = meetups.find(c => c.id ===parseInt(req.params.meetupId));
+    if(!meetup) res.status(404).send('the meetup with the given Id was not found');
+    res.send(meetup);
     
 });
 
