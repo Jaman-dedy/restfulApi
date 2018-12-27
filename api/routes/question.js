@@ -9,7 +9,7 @@ questions = [
         meetup : 1,
         title : "JS standardization",
         body : "Why js syntaxes differ from a version to antoher?",
-        votes : 1
+        votes : 0
     },
     {
         id : 2,
@@ -18,7 +18,7 @@ questions = [
         meetup : 2,
         title : "Algrorithm complexity",
         body : "How to set the order of functions?",
-        votes : 1
+        votes : 0
     },
     {
         id : 3,
@@ -27,7 +27,7 @@ questions = [
         meetup : 3,
         title : "Expert system",
         body : "What expert system consists on?",
-        votes : 1
+        votes : 0
     },
 ];
 
@@ -59,11 +59,25 @@ router.get('/:questionId', (req,res,next)=>{
     if(!question) res.status(404).send('the question with the given id was not found');
     res.send(question);
 });
-
-router.patch('/:questionId', (req,res,next)=>{
-    res.status(200).json({
-        message : 'udated question' 
-    });
+router.patch('/:questionId/upvote', (req,res,next)=>{
+    const question = questions.find(c => c.id ===parseInt(req.params.questionId));    
+    if(!question) res.status(404).send('the meetup with the given Id was not found');
+    let size = parseInt(req.params.questionId);
+    size = size-1;
+    let upvote = questions[size].votes;
+    upvote ++;
+    questions[size].votes = upvote;  
+    res.send(question);  
+});
+router.patch('/:questionId/downvote', (req,res,next)=>{
+    const question = questions.find(c => c.id ===parseInt(req.params.questionId));    
+    if(!question) res.status(404).send('the meetup with the given Id was not found');
+    let size = parseInt(req.params.questionId);
+    size = size-1;
+    let upvote = questions[size].votes;
+    upvote --;
+    questions[size].votes = upvote;  
+    res.send(question);  
 });
 
 router.delete('/:questionId', (req,res,next)=>{
