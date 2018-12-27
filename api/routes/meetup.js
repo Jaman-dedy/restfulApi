@@ -39,12 +39,15 @@ router.get('/', (req, res, next)=> {
 });
 
 router.post('/', (req, res, next)=> {
-
-     
+    if(!req.body.topic || req.body.location)
+    {
+       res.status(400).send('Topic and location are required');
+        return;
+    };
     const meetup = {
          id: meetups.length +1,
          topic: req.body.topic,  
-         location: req.body.location,               
+         location: req.body.location,                
          happeningOn: req.body.happeningOn,
          Tags: req.body.Tags
 
@@ -61,11 +64,23 @@ router.get('/:meetupId', (req,res,next)=>{
     
 });
 
-router.patch('/:meetupId', (req,res,next)=>{
-    res.status(200).json({
-        message : 'udated meetup'
-    });
+router.put('/:meetupId', (req,res,next)=>{
+    const meetup = meetups.find(c => c.id ===parseInt(req.params.meetupId));
+    if(!meetup) res.status(404).send('the meetup with the given Id was not found');
+
+    if(!req.body.topic || req.body.location)
+    {
+       res.status(400).send('Topic and location are required');
+        return;
+    };
+    meetup.topic= req.body.topic; 
+    meetup.location= req.body.location;                
+    meetup.happeningOn= req.body.happeningOn;
+    meetup.Tags= req.body.Tags;
+    res.send(meetup); 
+
 });
+
 
 router.delete('/:meetupId', (req,res,next)=>{
     res.status(200).json({

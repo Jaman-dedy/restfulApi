@@ -37,6 +37,8 @@ router.get('/', (req, res, next)=> {
 });
 
 router.post('/', (req, res, next)=> {
+
+    
  
     const question = { 
 
@@ -60,7 +62,7 @@ router.get('/:questionId', (req,res,next)=>{
 
 router.patch('/:questionId', (req,res,next)=>{
     res.status(200).json({
-        message : 'udated question'
+        message : 'udated question' 
     });
 });
 
