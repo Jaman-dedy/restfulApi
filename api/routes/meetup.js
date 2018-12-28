@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+var dateTime = require('date-time');
 
 
 const meetups = [
@@ -9,7 +10,7 @@ const meetups = [
   location : "telecom house",
   images : "upload/images/img.png",
   topic : "why javascript is the most use langage?",
-  happeningOn : "2018/12/30",
+  happeningOn : "2018-12-30",
   Tags : "Javascripts librairies, github statistics"
 },
 {
@@ -18,7 +19,7 @@ const meetups = [
     location : "telecom house",
     images : "upload/images/img.png",
     topic : "Machine learnings",
-    happeningOn : "2018/12/26",
+    happeningOn : "2018-12-29",
     Tags : "Artificial intelligence (AI)"
   },
   {
@@ -27,7 +28,7 @@ const meetups = [
     location : "IPRC Kichukiro",
     images : "upload/images/img.png",
     topic : "Big-O notation",
-    happeningOn : "2018/12/27",
+    happeningOn : "2018-12-27",
     Tags : "# Paul Bachmann, #Edmund Landau"
   },
 
@@ -38,8 +39,27 @@ router.get('/', (req, res, next)=> {
     res.send(meetups);
 });
 
+
+router.get('/upcoming', (req, res, next)=> {
+   
+   var current = dateTime();
+   let upcoming=[];
+   console.log(current);
+  
+   for(let i=0;c=meetups.length, i<c;i++){
+
+       if(current < meetups[i].happeningOn){
+            upcoming.push(meetups[i]); 
+       }
+     
+   }
+   
+   res.send(upcoming);
+      
+});
+
 router.post('/', (req, res, next)=> {
-    if(!req.body.topic || req.body.location)
+    if(!req.body.topic || !req.body.location)
     {
        res.status(400).send('Topic and location are required');
         return;
@@ -49,7 +69,7 @@ router.post('/', (req, res, next)=> {
          topic: req.body.topic,  
          location: req.body.location,                
          happeningOn: req.body.happeningOn,
-         Tags: req.body.Tags
+         tags: req.body.tags
 
     };
     meetups.push(meetup);

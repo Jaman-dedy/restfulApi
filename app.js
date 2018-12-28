@@ -3,6 +3,8 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 
 
+
+
 const app = express();
 
 const userRoutes = require('./api/routes/user');
@@ -13,6 +15,7 @@ const rsvpRoutes = require('./api/routes/rsvp');
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+
 
 
 app.use('/user', userRoutes);
