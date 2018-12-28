@@ -56,6 +56,27 @@ router.post('/', (req, res, next)=> {
     res.send(meetup);
 });
 
+router.post('/:meetupId/rsvps', (req, res, next)=> {
+
+    const meet = meetups.find(c => c.id ===parseInt(req.params.meetupId));
+    if(!meet) res.status(404).send('the meetup with the given Id was not found');
+
+    if(!req.body.meetup || !req.body.topic)
+    {
+       res.status(400).send('Topic and Meetup are required');
+        return;
+    };
+    const meetup = {
+         //id: meetups.length +1,
+         meetup : req.body.meetup,
+         topic: req.body.topic, 
+         status: req.body.status
+
+    };
+    meetups.push(meetup);
+    res.send(meetup);
+});
+
 router.get('/:meetupId', (req,res,next)=>{
 
     const meetup = meetups.find(c => c.id ===parseInt(req.params.meetupId));
