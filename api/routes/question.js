@@ -51,7 +51,7 @@ router.post('/', (req, res, next)=> {
       body : req.body.body
     };
 
-    if(!user || !meetup || !title || !body)
+    if(!req.body.user || !req.body.meetup || !req.body.title || !req.body.body)
     {
         res.status(400).json({
            status : 400,
@@ -62,7 +62,7 @@ router.post('/', (req, res, next)=> {
         questions.push(question);
         res.status(201).json({
             status : 201,
-            data : question
+            data : [question]
         })
     }
    
@@ -71,39 +71,88 @@ router.post('/', (req, res, next)=> {
 });
 
 router.get('/:questionId', (req,res,next)=>{
-
     const question = questions.find(c => c.id ===parseInt(req.params.questionId));
-    if(!question) res.status(404).send('the question with the given id was not found');
-    res.send(question);
+    if(!question) 
+    {
+        res.status(404).json({
+              status : 404,
+              error : 'the question with the given id was not found'
+        });
+    }
+    else {
+        res.status(200).json({
+            status : 200,
+            data : [question]
+        })
+    }
+   
 });
 router.patch('/:questionId/upvote', (req,res,next)=>{
     const question = questions.find(c => c.id ===parseInt(req.params.questionId));    
-    if(!question) res.status(404).send('the meetup with the given Id was not found');
+    if(!question) 
+    {
+      res.status(404).json({
+          status : 404,
+          error : 'the question with the given Id was not found'
+      });  
+    } else {
     let size = parseInt(req.params.questionId);
     size = size-1;
     let upvote = questions[size].votes;
     upvote ++;
     questions[size].votes = upvote;  
-    res.send(question);  
+    res.status(200).json({
+         status : 200,
+         data : [question]
+    });
+    
+    }
+    
+      
 });
 router.patch('/:questionId/downvote', (req,res,next)=>{
     const question = questions.find(c => c.id ===parseInt(req.params.questionId));    
-    if(!question) res.status(404).send('the meetup with the given Id was not found');
+    if(!question) 
+    {
+         res.status(404).json({
+             status : 404,
+             error : 'the question with the given Id was not found'
+         });
+    }
+    else {
     let size = parseInt(req.params.questionId);
     size = size-1;
     let upvote = questions[size].votes;
     upvote --;
-    questions[size].votes = upvote;  
-    res.send(question);  
+    questions[size].votes = upvote; 
+    res.status(200).json({
+        status : 200,
+        data : [question]
+    });
+   
+    }  
+      
 });
 
 router.delete('/:questionId', (req,res,next)=>{
     const question = questions.find(c => c.id ===parseInt(req.params.questionId));
-    if(!question) res.status(404).send('the question with the given id was not found');
-    
-    const index = questions.indexOf(question);
+    if(!question) 
+    {
+        res.status(404).json({
+            status : 404,
+            error : 'the question with the given id was not found'
+        }); 
+    }   
+   else {
+      const index = questions.indexOf(question);
     questions.splice(index,1);
 
-    res.send(question);
+    res.status(200).json({
+        status : 200,
+        data : [question]
+    });
+   
+   }
+    
 });
 module.exports = router;
