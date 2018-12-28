@@ -36,44 +36,62 @@ const meetups = [
 
 router.get('/', (req, res, next)=> {
  
-    res.send(meetups);
+    res.status(201).json({
+        status : 201,
+        data : meetups
+    });
 });
 
 
 router.get('/upcoming', (req, res, next)=> {
-   
-   var current = dateTime();
+
+    var current = dateTime();
    let upcoming=[];
-   console.log(current);
-  
+     
    for(let i=0;c=meetups.length, i<c;i++){
 
        if(current < meetups[i].happeningOn){
             upcoming.push(meetups[i]); 
        }
      
-   }
+   }   
+    res.status(200).json({
+        status : 200,
+
+        data : upcoming
+    })
    
-   res.send(upcoming);
+    
       
 });
 
 router.post('/', (req, res, next)=> {
+ 
+    const meetup = {
+        id: meetups.length +1,
+        topic: req.body.topic,  
+        location: req.body.location,                
+        happeningOn: req.body.happeningOn,
+        tags: req.body.tags
+
+   };
+
     if(!req.body.topic || !req.body.location)
     {
-       res.status(400).send('Topic and location are required');
-        return;
-    };
-    const meetup = {
-         id: meetups.length +1,
-         topic: req.body.topic,  
-         location: req.body.location,                
-         happeningOn: req.body.happeningOn,
-         tags: req.body.tags
-
-    };
-    meetups.push(meetup);
-    res.send(meetup);
+       res.status(400).json({
+            status : 400,
+            error : "Topic and location are required"
+       });
+    }
+    else {
+          meetups.push(meetup);
+          res.status(201).json({
+              status : 201,
+              data : [meetup]
+          });
+    }
+     
+   
 });
 
 router.post('/:meetupId/rsvps', (req, res, next)=> {
@@ -100,9 +118,20 @@ router.post('/:meetupId/rsvps', (req, res, next)=> {
 router.get('/:meetupId', (req,res,next)=>{
 
     const meetup = meetups.find(c => c.id ===parseInt(req.params.meetupId));
-    if(!meetup) res.status(404).send('the meetup with the given Id was not found');
-    res.send(meetup);
-    
+    if(!meetup) 
+    {
+        res.status(404).json({
+            status : 404,
+            error : 'the meetup with the given Id was not found'
+        });
+    }
+    else{
+        res.status(200).json({
+            status : 200,
+            data : [meetup]
+        });
+    }
+ 
 });
 
 router.put('/:meetupId', (req,res,next)=>{
