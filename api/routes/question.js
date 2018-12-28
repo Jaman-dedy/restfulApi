@@ -4,7 +4,7 @@ const router = express.Router();
 questions = [
     {
         id : 1,
-        createdOn : "2018/12/30",
+        createdOn : "2018-12-30",
         createdBy : 1,
         meetup : 1,
         title : "JS standardization",
@@ -13,7 +13,7 @@ questions = [
     },
     {
         id : 2,
-        createdOn : "2018/12/26",
+        createdOn : "2018-12-26",
         createdBy : 2,
         meetup : 2,
         title : "Algrorithm complexity",
@@ -22,7 +22,7 @@ questions = [
     },
     {
         id : 3,
-        createdOn : "2018/12/27",
+        createdOn : "2018-12-27",
         createdBy : 3,
         meetup : 3,
         title : "Expert system",
