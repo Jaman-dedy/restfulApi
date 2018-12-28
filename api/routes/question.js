@@ -80,8 +80,12 @@ router.patch('/:questionId/downvote', (req,res,next)=>{
 });
 
 router.delete('/:questionId', (req,res,next)=>{
-    res.status(200).json({
-        message : 'deleted question'
-    });
+    const question = questions.find(c => c.id ===parseInt(req.params.questionId));
+    if(!question) res.status(404).send('the question with the given id was not found');
+    
+    const index = questions.indexOf(question);
+    questions.splice(index,1);
+
+    res.send(question);
 });
 module.exports = router;
