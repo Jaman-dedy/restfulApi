@@ -33,12 +33,15 @@ questions = [
 
 router.get('/', (req, res, next)=> {
  
-    res.send(questions);
+    res.status(200).json({
+        status : 200,
+        data : questions
+    })
+   
 });
 
 router.post('/', (req, res, next)=> {
-    
- 
+     
     const question = { 
 
       id: questions.length +1,
@@ -47,8 +50,23 @@ router.post('/', (req, res, next)=> {
       title : req.body.title,
       body : req.body.body
     };
-   questions.push(question);
-   res.send(question);
+
+    if(!user || !meetup || !title || !body)
+    {
+        res.status(400).json({
+           status : 400,
+           error : 'All fields are required'
+        });
+    }
+    else {
+        questions.push(question);
+        res.status(201).json({
+            status : 201,
+            data : question
+        })
+    }
+   
+  
 
 });
 
