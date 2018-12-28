@@ -124,8 +124,12 @@ router.put('/:meetupId', (req,res,next)=>{
 
 
 router.delete('/:meetupId', (req,res,next)=>{
-    res.status(200).json({
-        message : 'deleted meetup'
-    });
+    const meetup = meetups.find(c => c.id ===parseInt(req.params.meetupId));
+    if(!meetup) res.status(404).send('the meetup with the given Id was not found');   
+
+    const index = meetups.indexOf(meetup);
+    meetups.splice(index,1);
+
+    res.send(meetup);
 });
 module.exports = router;
