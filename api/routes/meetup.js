@@ -45,8 +45,8 @@ router.get('/', (req, res, next)=> {
 
 router.get('/upcoming', (req, res, next)=> {
 
-    var current = dateTime();
-   let upcoming=[];
+    let current = dateTime();
+    let upcoming=[];
      
    for(let i=0;c=meetups.length, i<c;i++){
 
