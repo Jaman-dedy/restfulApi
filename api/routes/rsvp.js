@@ -23,8 +23,11 @@ const rsvps = [
 ];
 
 router.get('/', (req, res, next)=> {
- 
-    res.send(rsvps);
+    res.status(200).json({
+        status : 200,
+        data : rsvps
+    });
+   
 });
 
 router.post('/', (req, res, next)=> {
@@ -37,20 +40,34 @@ router.post('/', (req, res, next)=> {
 router.get('/:rsvpId', (req,res,next)=>{
 
     const rsvp = rsvps.find(c => c.id === parseInt(req.params.rsvpId));
-    if(!rsvp) res.status(404).send('Not such Rsvp has ben planed');
-    res.send(rsvp);
+    if(!rsvp)
+    {
+          res.status(404).json({
+              status : 404,
+              error : 'Not such Rsvp has ben planed'
+          });
+    } 
+    else {
+        res.status(200).json({
+            status : 200,
+            data : rsvp
+        });
+    }
+  
     
 });
 
 router.patch('/:rsvpId', (req,res,next)=>{
     res.status(200).json({
-        message : 'udated rsvp'
+        status : 200,
+        data : ['udated rsvp']
     });
 });
 
 router.delete('/:rsvpId', (req,res,next)=>{
     res.status(200).json({
-        message : 'deleted rsvp'
+        status : 200,
+        data : ['deleted rsvp']
     });
 });
 module.exports = router;
