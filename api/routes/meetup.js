@@ -11,7 +11,7 @@ const meetups = [
     images: 'upload/images/img.png',
     topic: 'why javascript is the most use langage?',
     happeningOn: '2018-12-30',
-    Tags: 'Javascripts librairies, github statistics',
+    Tags: 'Javascripts librairies, github statistics'
   },
   {
     id: 2,
@@ -20,7 +20,7 @@ const meetups = [
     images: 'upload/images/img.png',
     topic: 'Machine learnings',
     happeningOn: '2018-12-29',
-    Tags: 'Artificial intelligence (AI)',
+    Tags: 'Artificial intelligence (AI)'
   },
   {
     id: 3,
@@ -29,7 +29,7 @@ const meetups = [
     images: 'upload/images/img.png',
     topic: 'Big-O notation',
     happeningOn: '2018-12-27',
-    Tags: '# Paul Bachmann, #Edmund Landau',
+    Tags: '# Paul Bachmann, #Edmund Landau'
   },
 
 ];
