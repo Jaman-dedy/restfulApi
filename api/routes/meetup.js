@@ -30,131 +30,108 @@ const meetups = [
     topic: 'Big-O notation',
     happeningOn: '2018-12-27',
     Tags: '# Paul Bachmann, #Edmund Landau'
-  },
+  }
 
 ];
 
 router.get('/', (req, res, next) => {
-
   res.status(201).json({
     status: 201,
-    data: meetups,
+    data: meetups
   });
 });
 
 
 router.get('/upcoming', (req, res, next) => {
-
   const current = dateTime();
   const upcoming = [];
 
-  // eslint-disable-next-line 
+  // eslint-disable-next-line
   for (let i = 0; c = meetups.length, i < c; i++) {
 
     if (current < meetups[i].happeningOn) {
       upcoming.push(meetups[i]);
     }
-
   }
   res.status(200).json({
     status: 200,
 
-    data: upcoming,
+    data: upcoming
   });
-
-
 });
 
 router.post('/', (req, res, next) => {
-
   const meetup = {
     id: meetups.length + 1,
     topic: req.body.topic,
     location: req.body.location,
     happeningOn: req.body.happeningOn,
-    tags: req.body.tags,
+    tags: req.body.tags
 
   };
 
-  if (!req.body.topic || !req.body.location)
-  {
+  if (!req.body.topic || !req.body.location) {
     res.status(400).json({
       status: 400,
-      error: 'Topic and location are required',
+      error: 'Topic and location are required'
     });
-  }
-  else {
+  } else {
     meetups.push(meetup);
     res.status(201).json({
       status: 201,
-      data: [meetup],
+      data: [meetup]
     });
   }
-
-
 });
 
 router.post('/:meetupId/rsvps', (req, res, next) => {
-
-  const meet = meetups.find(c => c.id === parseInt(req.params.meetupId));
-  if (!meet)
-  {
+  const meet = meetups.find(c => c.id === parseInt(req.params.meetupId, 10));
+  if (!meet) {
     res.status(404).json({
       status: 404,
-      error: 'the meetup with the given Id was not found',
+      error: 'the meetup with the given Id was not found'
     });
-  }
-
-  else if (!req.body.meetup || !req.body.topic)
-  {
+  } else if (!req.body.meetup || !req.body.topic) {
     res.status(400).json({
       status: 400,
-      error: 'Topic and Meetup are required',
+      error: 'Topic and Meetup are required'
     });
-
-  }
-  else {
+  } else {
     const meetup = {
       // id: meetups.length +1,
       meetup: req.body.meetup,
       topic: req.body.topic,
-      status: req.body.status,
+      status: req.body.status
 
     };
     meetups.push(meetup);
     res.status(200).json({
       status: 200,
-      data: [meetup],
+      data: [meetup]
     });
   }
-
 });
 
 router.get('/:meetupId', (req, res, next) => {
-
-  const meetup = meetups.find(c => c.id === parseInt(req.params.meetupId));
-  if (!meetup)
-  {
+  const meetup = meetups.find(c => c.id === parseInt(req.params.meetupId, 10));
+  if (!meetup) {
     res.status(404).json({
       status: 404,
-      error: 'the meetup with the given Id was not found',
+      error: 'the meetup with the given Id was not found'
     });
-  }
-  else {
+  } else {
     res.status(200).json({
       status: 200,
-      data: [meetup],
+      data: [meetup]
     });
   }
-
 });
 
 router.put('/:meetupId', (req, res, next) => {
-  const meetup = meetups.find(c => c.id === parseInt(req.params.meetupId));
+  const meetup = meetups.find(c => c.id === parseInt(req.params.meetupId, 10));
   if (!meetup) res.status(404).send('the meetup with the given Id was not found');
 
-  if (!req.body.topic || req.body.location)
-  {
+  if (!req.body.topic || req.body.location) {
     res.status(400).send('Topic and location are required');
     return;
   }
@@ -163,12 +140,11 @@ router.put('/:meetupId', (req, res, next) => {
   meetup.happeningOn = req.body.happeningOn;
   meetup.Tags = req.body.Tags;
   res.send(meetup);
-
 });
 
 
 router.delete('/:meetupId', (req, res, next) => {
-  const meetup = meetups.find(c => c.id === parseInt(req.params.meetupId));
+  const meetup = meetups.find(c => c.id === parseInt(req.params.meetupId, 10));
   if (!meetup) res.status(404).send('the meetup with the given Id was not found');
 
   const index = meetups.indexOf(meetup);

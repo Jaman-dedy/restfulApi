@@ -9,16 +9,14 @@ const rsvpRoutes = require('./api/routes/rsvp');
 const questionRoutes = require('./api/routes/question');
 const meetupRoutes = require('./api/routes/meetup');
 
-
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-
 app.use('/questions', questionRoutes);
-app.use('/user',userRoutes);
-app.use('/rsvp', rsvpRoutes);
-app.use('/meetup', meetupRoutes);
+app.use('/users', userRoutes);
+app.use('/rsvps', rsvpRoutes);
+app.use('/meetups', meetupRoutes);
 
 
 module.exports = app;
