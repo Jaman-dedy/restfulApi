@@ -60,8 +60,8 @@ router.post('/', (req, res, next) => {
     };
     users.push(user);
 
-    res.status(200).json({
-      status: 200,
+    res.status(201).json({
+      status: 201,
       data: [user]
     });
   }
@@ -69,8 +69,17 @@ router.post('/', (req, res, next) => {
 
 router.get('/:userId', (req, res, next) => {
   const user = users.find(c => c.id === parseInt(req.params.userId, 10));
-  if (!user) res.status(404).send('the question with the given id was not found');
-  res.send(user);
+  if (!user) {
+    res.status(404).json({
+      status: 404,
+      error: 'user with the given Id not exists'
+    });
+  } else {
+    res.status(200).json({
+      status: 200,
+      data: [user]
+    });
+  }
 });
 
 router.patch('/:userId', (req, res, next) => {
@@ -78,7 +87,6 @@ router.patch('/:userId', (req, res, next) => {
     message: 'udated user'
   });
 });
-
 router.delete('/:userId', (req, res, next) => {
   res.status(200).json({
     message: 'deleted user'
