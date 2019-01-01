@@ -10,7 +10,7 @@ const meetups = [
     location: 'telecom house',
     images: 'upload/images/img.png',
     topic: 'why javascript is the most use langage?',
-    happeningOn: '2018-12-30',
+    happeningOn: '2019-02-30',
     Tags: 'Javascripts librairies, github statistics'
   },
   {
@@ -19,7 +19,7 @@ const meetups = [
     location: 'telecom house',
     images: 'upload/images/img.png',
     topic: 'Machine learnings',
-    happeningOn: '2018-12-29',
+    happeningOn: '2019-01-29',
     Tags: 'Artificial intelligence (AI)'
   },
   {
@@ -54,18 +54,10 @@ router.get('/upcoming', (req, res, next) => {
     }
   }
 
-  if (upcoming.length === 0) {
-    res.status(204).json({
-      status: 204,
-      message: 'No upcoming meetup available'
-    });
-  } else {
-    res.status(200).json({
-      status: 200,
-
-      data: upcoming
-    });
-  }
+  res.status(200).json({
+    status: 200,
+    data: upcoming
+  });
 });
 
 router.post('/', (req, res, next) => {
@@ -77,19 +69,11 @@ router.post('/', (req, res, next) => {
     tags: req.body.tags
 
   };
-
-  if (!req.body.topic || !req.body.location) {
-    res.status(400).json({
-      status: 400,
-      error: 'Topic and location are required'
-    });
-  } else {
-    meetups.push(meetup);
-    res.status(201).json({
-      status: 201,
-      data: [meetup]
-    });
-  }
+  meetups.push(meetup);
+  res.status(201).json({
+    status: 201,
+    data: [meetup]
+  });
 });
 
 router.post('/:meetupId/rsvps', (req, res, next) => {
@@ -98,11 +82,6 @@ router.post('/:meetupId/rsvps', (req, res, next) => {
     res.status(404).json({
       status: 404,
       error: 'the meetup with the given Id was not found'
-    });
-  } else if (!req.body.meetup || !req.body.topic) {
-    res.status(400).json({
-      status: 400,
-      error: 'Topic and Meetup are required'
     });
   } else {
     const meetup = {
@@ -135,30 +114,6 @@ router.get('/:meetupId', (req, res, next) => {
   }
 });
 
-router.put('/:meetupId', (req, res, next) => {
-  const meetup = meetups.find(c => c.id === parseInt(req.params.meetupId, 10));
-  if (!meetup) {
-    res.status(404).json({
-      status: 404,
-      error: 'the meetup with the given Id was not found'
-    });
-  } else {
-    if (!req.body.topic || !req.body.location) {
-      res.status(400).send('Topic and location are required');
-      return;
-    }
-
-    meetup.topic = req.body.topic;
-    meetup.location = req.body.location;
-    meetup.happeningOn = req.body.happeningOn;
-    meetup.Tags = req.body.Tags;
-    res.status(200).json({
-      status: 200,
-      data: meetup
-    });
-  }
-});
-
 router.delete('/:meetupId', (req, res, next) => {
   const meetup = meetups.find(c => c.id === parseInt(req.params.meetupId, 10));
   if (!meetup) {
@@ -170,8 +125,8 @@ router.delete('/:meetupId', (req, res, next) => {
     const index = meetups.indexOf(meetup);
     meetups.splice(index, 1);
 
-    res.status(204).json({
-      status: 204,
+    res.status(200).json({
+      status: 200,
       data: [meetup]
     });
   }
