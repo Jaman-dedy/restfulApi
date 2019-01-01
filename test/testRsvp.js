@@ -67,7 +67,7 @@ describe('Testing Rsvps endpoints', () => {
   describe('udpate rsvp', () => {
     it('Updated rsvp', (done) => {
       request(app)
-        .get('/users/1')
+        .patch('/users/1')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200, done);
@@ -77,7 +77,7 @@ describe('Testing Rsvps endpoints', () => {
   describe('Delete rsvp', () => {
     it('Deleted rsvp', (done) => {
       request(app)
-        .get('/users/1')
+        .delete('/users/1')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200, done);

@@ -68,7 +68,7 @@ describe('Testing user endpoints', () => {
   describe('udpate user', () => {
     it('Updated user', (done) => {
       request(app)
-        .get('/users/1')
+        .patch('/users/1')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200, done);
@@ -78,7 +78,7 @@ describe('Testing user endpoints', () => {
   describe('Delete user', () => {
     it('Deleted user', (done) => {
       request(app)
-        .get('/users/1')
+        .delete('/users/1')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200, done);

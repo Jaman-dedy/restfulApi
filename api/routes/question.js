@@ -68,7 +68,7 @@ router.get('/:questionId', (req, res, next) => {
   if (!question) {
     res.status(404).json({
       status: 404,
-      error: 'the question with the given id was not found'
+      error: 'the question with the given Id was not found'
     });
   } else {
     res.status(200).json({
@@ -123,7 +123,7 @@ router.delete('/:questionId', (req, res, next) => {
   if (!question) {
     res.status(404).json({
       status: 404,
-      error: 'the question with the given id was not found'
+      error: 'the question with the given Id was not found'
     });
   } else {
     const index = questions.indexOf(question);
