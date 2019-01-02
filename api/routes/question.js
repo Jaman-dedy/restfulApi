@@ -32,6 +32,13 @@ const questions = [
   }
 ];
 
+router.get('/', (req, res, next) => {
+  res.status(200).json({
+    status: 200,
+    data: questions
+  });
+});
+
 router.post('/', (req, res, next) => {
   const question = {
 
