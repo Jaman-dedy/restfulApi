@@ -36,6 +36,12 @@ const users = [
     registered: '2018-12-23',
     isAdmin: false
   }];
+router.get('/', (req, res, next) => {
+  res.status(200).json({
+    status: 200,
+    data: users
+  });
+});
 
 router.post('/', (req, res, next) => {
   if (!req.body.firstname || !req.body.lastname || !req.body.email) {
