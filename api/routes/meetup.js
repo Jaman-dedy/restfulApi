@@ -34,6 +34,14 @@ const meetups = [
 
 ];
 
+router.get('/', (req, res, next) => {
+  res.status(200).json({
+    status: 200,
+    data: meetups
+  });
+});
+
+
 router.get('/upcoming', (req, res, next) => {
   const current = dateTime();
   const upcoming = [];
