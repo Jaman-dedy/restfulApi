@@ -1,7 +1,7 @@
 const express = require('express');
 
 const router = express.Router();
-
+//user array
 const users = [
   {
     id: 1,
@@ -36,6 +36,7 @@ const users = [
     registered: '2018-12-23',
     isAdmin: false
   }];
+//user endpoints
 router.get('/', (req, res, next) => {
   res.status(200).json({
     status: 200,
