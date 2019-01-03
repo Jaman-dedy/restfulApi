@@ -5,34 +5,34 @@ const assert = require('chai').assert;
 const request = require('supertest');
 const app = require('../app');
 
-describe('Testing user endpoints', () => {
-  describe('All users', () => {
-    it('All users', (done) => {
+describe('Testing Rsvps endpoints', () => {
+  describe('All Rsvps', () => {
+    it('All rsvps', (done) => {
       request(app)
-        .get('/users')
+        .get('/rsvps')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200, done);
     });
   });
-  describe('Find a specific user', () => {
-    it('Get a specific user', (done) => {
+  describe('Find a specific rsvp', () => {
+    it('Get a specific rsvp', (done) => {
       request(app)
-        .get('/users/1')
+        .get('/rsvps/1')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200, done);
     });
   });
 
-  describe('Specific user not found', () => {
+  describe('Specific rsvp not found', () => {
     const error = {
       status: 404,
-      error: 'user with the given Id not exists'
+      error: 'Not such Rsvp has ben planed'
     };
-    it('Given user Id not found', (done) => {
+    it('Given rsvp Id not found', (done) => {
       request(app)
-        .get('/users/30')
+        .get('/rsvps/30')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(404)
@@ -44,18 +44,17 @@ describe('Testing user endpoints', () => {
     });
   });
 
-  describe('Post user', () => {
-    const user = {
+  describe('Post rsvp', () => {
+    const rsvp = {
       id: 1,
-      firstname: 'Emmanuel',
-      lastname: 'Bush',
-      email: 'emabush@gmail.com',
-      isAdmin: true
+      meetup: 'Javascript subfunctions',
+      user: 1,
+      response: 'yes'
     };
-    it('Create a user', (done) => {
+    it('Create a rsvp', (done) => {
       request(app)
-        .post('/users')
-        .send(user)
+        .post('/rsvps')
+        .send(rsvp)
         .set('Accept', 'application/json')
         .expect(201)
         .end((err) => {
@@ -65,20 +64,20 @@ describe('Testing user endpoints', () => {
     });
   });
 
-  describe('udpate user', () => {
-    it('Updated user', (done) => {
+  describe('udpate rsvp', () => {
+    it('Updated rsvp', (done) => {
       request(app)
-        .patch('/users/1')
+        .patch('/rsvps/1')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200, done);
     });
   });
 
-  describe('Delete user', () => {
-    it('Deleted user', (done) => {
+  describe('Delete rsvp', () => {
+    it('Deleted rsvp', (done) => {
       request(app)
-        .delete('/users/1')
+        .delete('/rsvps/1')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200, done);
