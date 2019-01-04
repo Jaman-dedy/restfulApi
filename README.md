@@ -92,7 +92,7 @@ For completing this project, we use a large base of ressources, we provide below
 * ...
 ***
 ### License
-` MIT © `[Jeand de Dieu AMANI](https://github.com/Jaman-dedy)
+` MIT © `[Jeand de Dieu AMANI MPANGIRWA](https://github.com/Jaman-dedy)
 
 
 
