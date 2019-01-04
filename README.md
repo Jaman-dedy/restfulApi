@@ -44,7 +44,7 @@ Restfulapi project stand for the first backend side of Questioner with no persis
 * Make sure the `server` is runing on a specific port
 
 ## Running tests
----
+
 For getting start with the demo, use postman to access API endpoints.
 
 ### API Endpoints
@@ -72,7 +72,7 @@ For getting start with the demo, use postman to access API endpoints.
 |      v1/meetups/<userId>       |     PUT         |  Update a specific meetup                           |
 |      v1/meetups/<userId>       |     DELETE      |  Delete a meetup meetup                             |
 
-***
+
 ## Credits
 
 For completing this project, we use a large base of ressources, we provide below some of them
