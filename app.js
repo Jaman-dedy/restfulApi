@@ -14,10 +14,10 @@ app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use('/questions', questionRoutes);
-app.use('/users', userRoutes);
-app.use('/rsvps', rsvpRoutes);
-app.use('/meetups', meetupRoutes);
+app.use('/v1/questions', questionRoutes);
+app.use('/v1/users', userRoutes);
+app.use('/v1/rsvps', rsvpRoutes);
+app.use('/v1/meetups', meetupRoutes);
 
 
 module.exports = app;
