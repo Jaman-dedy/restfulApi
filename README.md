@@ -10,21 +10,21 @@
 
 Restfulapi project stand for the first backend side of Questioner with no persistance CRUD implmentation. The aim of the project is to create a Resful API using nodejs and express.*
 
-..* UI Template : [https://jaman-dedy.github.io/Questioner/index.html](https://jaman-dedy.github.io/Questioner/index.html)
+* UI Template : [https://jaman-dedy.github.io/Questioner/index.html](https://jaman-dedy.github.io/Questioner/index.html)
 
 ***
 ## Tools, Modules, framework used
 ---
-..* Nodejs/Express
-..* Vscode
-..* Mocha chai and supertest for unitest
-..* Nodemon
-..* Eslint Airbnb
-..* Body-parser
-..* TravaisCI
-..* Coveralls.io
-..* Code climate
-..* Heroku
+* Nodejs/Express
+* Vscode
+* Mocha chai and supertest for unitest
+* Nodemon
+* Eslint Airbnb
+* Body-parser
+* TravaisCI
+* Coveralls.io
+* Code climate
+* Heroku
 
 ## Features
 ***
@@ -44,9 +44,9 @@ $ git clone [https://github.com/Jaman-dedy/restfulApi.git](https://github.com/Ja
 $ npm start   
 ```
 
-..* Make sure you get `Nodejs `on your work space
-..* Run `npm install` to install node packages
-..* Make sure the `server` is runing on a specific port
+* Make sure you get `Nodejs `on your work space
+* Run `npm install` to install node packages
+* Make sure the `server` is runing on a specific port
 
 ## Running tests
 ---
@@ -80,19 +80,19 @@ For getting start with the demo, use postman to access API endpoints.
 ***
 ## Credits
 
-..* [Custome a readme file](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#tables)
-..* [Guide to write a readme file](https://medium.com/@meakaakka/a-beginners-guide-to-writing-a-kickass-readme-7ac01da88ab3)
-..* [Read me file template](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
-..* [Bulding a resful APi with nodejs and express](https://www.youtube.com/watch?v=pKd0Rpw7O48)
-..* [Create a resful APi with nodejs 14 tutos](https://www.youtube.com/watch?v=0oXYLzuucwE&list=PL55RiY5tL51q4D-B63KBnygU6opNPFk_q)
-..* [Git & github learnings](https://www.youtube.com/watch?v=SWYqp7iY_Tc&t=173s)
-..* [Github Tutorial](https://www.youtube.com/watch?v=xuB1Id2Wxak&t=198s)
-..* [Using mocha and chai](https://www.youtube.com/watch?v=MLTRHc5dk6s)
-..* [Eslint quickstart](https://www.youtube.com/watch?v=qhuFviJn-es&t=435s)
-..* [Diving into Eslint](https://www.youtube.com/watch?v=nxxl2H_TOTc&list=PLMWjeRChIK6bnp6qaS3rxLGCpc9aQYzEE)
-..* [Intro do travisCI](https://www.youtube.com/watch?v=EZ3jbORVFHQ&t=10s)
-..* [API testing](https://hackernoon.com/api-testing-using-supertest-1f830ce838f1)
-..* ...
+* [Custome a readme file](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#tables)
+* [Guide to write a readme file](https://medium.com/@meakaakka/a-beginners-guide-to-writing-a-kickass-readme-7ac01da88ab3)
+* [Read me file template](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
+* [Bulding a resful APi with nodejs and express](https://www.youtube.com/watch?v=pKd0Rpw7O48)
+* [Create a resful APi with nodejs 14 tutos](https://www.youtube.com/watch?v=0oXYLzuucwE&list=PL55RiY5tL51q4D-B63KBnygU6opNPFk_q)
+* [Git & github learnings](https://www.youtube.com/watch?v=SWYqp7iY_Tc&t=173s)
+* [Github Tutorial](https://www.youtube.com/watch?v=xuB1Id2Wxak&t=198s)
+* [Using mocha and chai](https://www.youtube.com/watch?v=MLTRHc5dk6s)
+* [Eslint quickstart](https://www.youtube.com/watch?v=qhuFviJn-es&t=435s)
+* [Diving into Eslint](https://www.youtube.com/watch?v=nxxl2H_TOTc&list=PLMWjeRChIK6bnp6qaS3rxLGCpc9aQYzEE)
+* [Intro do travisCI](https://www.youtube.com/watch?v=EZ3jbORVFHQ&t=10s)
+* [API testing](https://hackernoon.com/api-testing-using-supertest-1f830ce838f1)
+* ...
 ***
 ### License
 ` MIT  &copy  [Jeand de Dieu AMANI](https://github.com/Jaman-dedy)`
