@@ -58,7 +58,7 @@ For getting start with the demo, use postman to access API endpoints.
 |      v1/users/<userId>         |     PUT         |  Update a specific user                             |
 |      v1/users/<userId>         |     DELETE      |  Delete a user record                               |
 |         v1/rsvps/              |     GET         |  Fetch all rsvps record                             |
-|      v1/rsvps/<rsvpId>         |     GET         |  Fetch a specific rsvp record                       |
+|      `v1/rsvps/<rsvpId>`       |     GET         |  Fetch a specific rsvp record                       |
 |        v1/questions/           |     GET         |  Fetch all questions record                         |
 |  v1/questions/<questionId>     |     GET         |  Fetch a specific question record                   |
 |        v1/questions            |     POST        |  Create a question for a specific meetup            |
