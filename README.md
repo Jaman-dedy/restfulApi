@@ -45,7 +45,8 @@ Restfulapi project stand for the first backend side of Questioner with no persis
 
 ## Running tests
 
-For getting start with the demo, use postman to access API endpoints.
+For getting start with the demo, use postman to access API endpoints. 
+[https://btcprep2.herokuapp.com/](https://btcprep2.herokuapp.com/), add a specific endpoint to this url and run the test in postman
 
 ### API Endpoints
 
@@ -71,7 +72,6 @@ For getting start with the demo, use postman to access API endpoints.
 | `v1/meetups/<meetupId>/rsvps`    |     POST        |  Respond to a meetup RSVP                           |
 |     `v1/meetups/<userId> `       |     PUT         |  Update a specific meetup                           |
 |      `v1/meetups/<userId> `      |     DELETE      |  Delete a meetup meetup                             |
-
 
 ## Credits
 
