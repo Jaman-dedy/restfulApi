@@ -52,8 +52,8 @@ For getting start with the demo, use postman to access API endpoints.
 
 |         Endpoints              |   Methods       |               Description                           |
 | -------------------------------|:---------------:| ---------------------------------------------------:|
-|         v1/users/              |     GET         |  Fetch all users record                             |
-|      v1/users/<userId>         |     GET         |  Fetch a specific user record                       |
+|         `v1/users/ `           |     GET         |  Fetch all users record                             |
+|     `v1/users/<userId>`        |     GET         |  Fetch a specific user record                       |
 |         v1/users               |     POST        |  Create a user record                               |
 |      v1/users/<userId>         |     PUT         |  Update a specific user                             |
 |      v1/users/<userId>         |     DELETE      |  Delete a user record                               |
