@@ -50,29 +50,28 @@ For getting start with the demo, use postman to access API endpoints.
 
 ### API Endpoints
 
-|         Endpoints              |   Methods       |               Description                           |
-| -------------------------------|:---------------:| ---------------------------------------------------:|
-|         `v1/users/ `           |     GET         |  Fetch all users record                             |
-|     `v1/users/<userId>`        |     GET         |  Fetch a specific user record                       |
-|         v1/users               |     POST        |  Create a user record                               |
-|      v1/users/<userId>         |     PUT         |  Update a specific user                             |
-|      v1/users/<userId>         |     DELETE      |  Delete a user record                               |
-|         v1/rsvps/              |     GET         |  Fetch all rsvps record                             |
-|      `v1/rsvps/<rsvpId>`       |     GET         |  Fetch a specific rsvp record                       |
-|        v1/questions/           |     GET         |  Fetch all questions record                         |
-|  v1/questions/<questionId>     |     GET         |  Fetch a specific question record                   |
-|        v1/questions            |     POST        |  Create a question for a specific meetup            |
-|v1/questions/<questionId>/upvote|     PATCH       |  Upvote a specific question (increase votes by 1)   |
-|v1/questions/<questionId>/upvote|     PATCH       |  Downvote a specific question (decrease votes by 1) |
-|  v1/questions/<questionId>     |     DELETE      |  Delete a specific question record                  |
-|         v1/meetups/            |     GET         |  Fetch all meetups records                          |
-|    v1/meetups/upcoming         |     GET         |  Fetch all upcoming meetups records                 |
-|    v1/meetups/<meetupId>       |     GET         |  Fetch a specific meetup record                     |
-|         v1/meetups             |     POST        |  Create a meetup record                             |
-|  v1/meetups/<meetupId>/rsvps   |     POST        |  Respond to a meetup RSVP                           |
-|      v1/meetups/<userId>       |     PUT         |  Update a specific meetup                           |
-|      v1/meetups/<userId>       |     DELETE      |  Delete a meetup meetup                             |
-
+|         Endpoints                |   Methods       |               Description                           |
+| ---------------------------------|:---------------:| ---------------------------------------------------:|
+|         `v1/users/`              |     GET         |  Fetch all users record                             |
+|      `v1/users/<userId>`         |     GET         |  Fetch a specific user record                       |
+|         `v1/users`               |     POST        |  Create a user record                               |
+|     `v1/users/<userId>`          |     PUT         |  Update a specific user                             |
+|     `v1/users/<userId>`          |     DELETE      |  Delete a user record                               |
+|         `v1/rsvps/`              |     GET         |  Fetch all rsvps record                             |
+|      `v1/rsvps/<rsvpId>`         |     GET         |  Fetch a specific rsvp record                       |
+|        `v1/questions/ `          |     GET         |  Fetch all questions record                         |
+|  `v1/questions/<questionId>`     |     GET         |  Fetch a specific question record                   |
+|        `v1/questions`            |     POST        |  Create a question for a specific meetup            |
+|`v1/questions/<questionId>/upvote`|     PATCH       |  Upvote a specific question (increase votes by 1)   |
+|`v1/questions/<questionId>/upvote`|     PATCH       |  Downvote a specific question (decrease votes by 1) |
+|  `v1/questions/<questionId>`     |     DELETE      |  Delete a specific question record                  |
+|         `v1/meetups/`            |     GET         |  Fetch all meetups records                          |
+|   `v1/meetups/upcoming`          |     GET         |  Fetch all upcoming meetups records                 |
+|   `v1/meetups/<meetupId>`        |     GET         |  Fetch a specific meetup record                     |
+|        `v1/meetups`              |     POST        |  Create a meetup record                             |
+| `v1/meetups/<meetupId>/rsvps`    |     POST        |  Respond to a meetup RSVP                           |
+|     `v1/meetups/<userId> `       |     PUT         |  Update a specific meetup                           |
+|      `v1/meetups/<userId> `      |     DELETE      |  Delete a meetup meetup                             |
 
 ## Credits
 
