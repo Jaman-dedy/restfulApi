@@ -1,0 +1,62 @@
+input[type=text],input[type=date],select, textarea 
+{
+    width : 100%;
+    padding: 12px;
+    border : 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing : border-box;
+    resize: vertical;
+}
+input[type=submit]
+{
+    background : transparent;
+    border : none;
+    outline: none;
+    color : #fff;
+    background : rgba(3, 75, 119, 0.8);
+    padding: 10px 20px;
+   
+    cursor: pointer;
+    border-radius: 5px;
+    float: right;
+}
+label{
+    padding: 12px 12px 12px 0;
+    display: inline-block;
+}
+
+.check{
+    cursor: pointer;
+
+}
+   
+
+.formcontainer
+{
+    border-radius: 5px;
+    background-color :rgba(76, 91, 100, 0.281);
+    padding: 4px;
+    
+}
+.submeetup{
+    border-radius: 5px;
+    background-color :rgba(235, 235, 235, 0.8);
+    padding: 10px;
+    margin: 10px;
+    color : black;
+  
+}
+
+
+
+@media screen and (max-width : 600px){
+    .labelrow, .inputrow, input[type=submit]{
+        width: 100%;
+        margin-top: 0;
+    }
+}
+
+.topq{
+    color: rgba(164, 223, 238, 0.2)
+}
+

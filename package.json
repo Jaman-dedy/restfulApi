@@ -4,7 +4,7 @@
   "description": "Creating a node js Restful API Questioner",
   "main": "app.js",
   "scripts": {
-    "test": "nyc mocha",
+    "test": "nyc mocha servers/test",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "start": "nodemon server.js"
   },

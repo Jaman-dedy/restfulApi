@@ -4,10 +4,10 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
-const userRoutes = require('./api/routes/user');
-const rsvpRoutes = require('./api/routes/rsvp');
-const questionRoutes = require('./api/routes/question');
-const meetupRoutes = require('./api/routes/meetup');
+const userRoutes = require('./servers/routes/user');
+const rsvpRoutes = require('./servers/routes/rsvp');
+const questionRoutes = require('./servers/routes/question');
+const meetupRoutes = require('./servers/routes/meetup');
 
 
 app.use(morgan('dev'));

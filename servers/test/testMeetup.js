@@ -3,7 +3,7 @@
 // eslint-disable-next-line
 const assert = require('chai').assert;
 const request = require('supertest');
-const app = require('../app');
+const app = require('../../app');
 
 describe('Testing meetup endpoints', () => {
   describe('All meetups', () => {
