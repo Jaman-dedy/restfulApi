@@ -2,7 +2,7 @@ const uuid= require("uuid");
 const validate = require('../helpers/utilities');
 // Models
 
-const QuestionModel= require("../models/QuestionModel");
+const QuestionModel= require("../models/questionModel");
 
 module.exports= {
     createQuestion:(req, res)=>{
