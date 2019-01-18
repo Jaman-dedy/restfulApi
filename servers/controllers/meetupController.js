@@ -9,13 +9,7 @@ const RsvpModel = require("../models/rsvpModel")
 
 module.exports = {
     createMeetup: (req, res) => {
-        /*  if(!req.body.createdOn && !req.body.location && !req.body.images && !req.body.topic && !req.body.happeningOn && !req.body.tags )
-          {
-              return res.status(400).json({
-                  status : 400,
-                  message : 'All fields are required'
-              })
-          }*/
+      
         const meetupValidate = validate.meetupValidate;
         const { error } = meetupValidate(req.body)
         if (error) {
