@@ -3,46 +3,35 @@
 // eslint-disable-next-line
 const assert = require('chai').assert;
 const request = require('supertest');
-const app = require('../../app');
+const app = require('../index');
 
 describe('Testing meetup endpoints', () => {
-  describe('All meetups', () => {
+  describe('Should return All meetups', () => {
     it('All Meetups', (done) => {
       request(app)
-        .get('/meetups')
+        .get('/api/v1/meetups')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200, done);
     });
   });
-
   describe('Upcoming meetups', () => {
-    it('Upcoming Meetups', (done) => {
+    it('Should return Upcoming Meetups', (done) => {
       request(app)
-        .get('/meetups/upcoming')
+        .get('/api/v1/meetups/upcoming')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200, done);
     });
   });
-  describe('Find a specific meetup', () => {
-    it('Get a specific meetup', (done) => {
-      request(app)
-        .get('/meetups/1')
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200, done);
-    });
-  });
-
   describe('Specific meetup not found', () => {
     const error = {
-      status: 404,
-      error: 'the meetup with the given Id was not found'
+      status : 404,
+      message : 'meetup not found'
     };
-    it('Given meetup Id not found', (done) => {
+    it('Should return Given meetup Id not found', (done) => {
       request(app)
-        .get('/meetups/30')
+        .get('/api/v1/meetups/30')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(404)
@@ -53,18 +42,27 @@ describe('Testing meetup endpoints', () => {
         });
     });
   });
+  describe('Find a specific meetup', () => {
+    it('Should return Get a specific meetup', (done) => {
+      request(app)
+        .get('/api/v1/meetups/1')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200, done);
+    });
+  });
+ 
 
   describe('Post a meetup', () => {
     const meetup = {
-      id: 1,
+     
       topic: 'Machine learnings',
-      loaction: 'Telecom house',
-      happeningOn: '2019-01-05',
-      tags: 'Artificial intelligence (AI)'
+      location: 'Telecom house',
+      tags: ['Artificial', 'intelligence (AI)']
     };
-    it('Create a meetup', (done) => {
+    it('Should test the endpoint Create a meetup', (done) => {
       request(app)
-        .post('/meetups')
+        .post('/api/v1/meetups/')
         .send(meetup)
         .set('Accept', 'application/json')
         .expect(201)
@@ -74,16 +72,16 @@ describe('Testing meetup endpoints', () => {
         });
     });
   });
-
+ 
   describe('Respond to a meetup Rsvp', () => {
     const rsvp = {
       meetup: 1,
       topic: 'Machine learnings',
       status: 'maybe'
     };
-    it('Create a meetup', (done) => {
+    it('Should test the meetup rsvp', (done) => {
       request(app)
-        .post('/meetups/1/rsvps')
+        .post('/api/v1/meetups/1/rsvps')
         .send(rsvp)
         .set('Accept', 'application/json')
         .expect(201)
@@ -93,51 +91,6 @@ describe('Testing meetup endpoints', () => {
         });
     });
   });
-  describe('Meetup not found', () => {
-    const error = {
-      status: 404,
-      error: 'the meetup with the given Id was not found'
-    };
-    it('Given meetup Id not found', (done) => {
-      request(app)
-        .post('/meetups/30/rsvps')
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(404)
-        .expect(error)
-        .end((err) => {
-          if (err) return done(err);
-          done();
-        });
-    });
-  });
 
-  describe('Delete an existing meetup', () => {
-    it('Deleted question', (done) => {
-      request(app)
-        .delete('/meetups/1')
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200, done);
-    });
-  });
 
-  describe('Delete a non-existing meetup', () => {
-    const error = {
-      status: 404,
-      error: 'the meetup with the given Id was not found'
-    };
-    it('Given meetup Id not found', (done) => {
-      request(app)
-        .delete('/meetups/30')
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(404)
-        .expect(error)
-        .end((err) => {
-          if (err) return done(err);
-          done();
-        });
-    });
-  });
 });
