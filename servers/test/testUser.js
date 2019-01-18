@@ -3,36 +3,48 @@
 // eslint-disable-next-line
 const assert = require('chai').assert;
 const request = require('supertest');
-const app = require('../app');
-
-describe('Testing Rsvps endpoints', () => {
-  describe('All Rsvps', () => {
-    it('All rsvps', (done) => {
+const chai = require('chai');
+const {expect}=require('chai');
+chaiHttp = require('chai-http');
+const app = require('../index');
+/*
+chai.use(chaiHttp);
+describe("somr",()=>{
+  describe("dskf",()=>{
+    chai.request(app)
+     .get("/api/v1/users")
+     .end((err,res)=>{
+       expect(res.body).to.be.an('object');
+     })
+  })
+})*/
+describe('Testing user endpoints', () => {
+ 
+    it('All users', (done) => {
       request(app)
-        .get('/rsvps')
+        .get('/api/v1/users')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200, done);
     });
-  });
-  describe('Find a specific rsvp', () => {
-    it('Get a specific rsvp', (done) => {
+  
+
+    it('Get a specific user', (done) => {
       request(app)
-        .get('/rsvps/1')
+        .get('/api/v1/users/1')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200, done);
     });
-  });
+  
 
-  describe('Specific rsvp not found', () => {
     const error = {
-      status: 404,
-      error: 'Not such Rsvp has ben planed'
+      status : 404,
+      message : 'User not found'
     };
-    it('Given rsvp Id not found', (done) => {
+    it('Given user Id not found', (done) => {
       request(app)
-        .get('/rsvps/30')
+        .get('/api/v1/users/30')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(404)
@@ -42,19 +54,19 @@ describe('Testing Rsvps endpoints', () => {
           done();
         });
     });
-  });
+  
 
-  describe('Post rsvp', () => {
-    const rsvp = {
+    const user = {
       id: 1,
-      meetup: 'Javascript subfunctions',
-      user: 1,
-      response: 'yes'
+      firstname: 'Emmanuel',
+      lastname: 'Bush',
+      email: 'emabush@gmail.com',
+      isAdmin: true
     };
-    it('Create a rsvp', (done) => {
+    it('Create a user', (done) => {
       request(app)
-        .post('/rsvps')
-        .send(rsvp)
+        .post('/api/v1/users')
+        .send(user)
         .set('Accept', 'application/json')
         .expect(201)
         .end((err) => {
@@ -62,25 +74,24 @@ describe('Testing Rsvps endpoints', () => {
           done();
         });
     });
-  });
+  
 
-  describe('udpate rsvp', () => {
-    it('Updated rsvp', (done) => {
+    it('Updated user', (done) => {
       request(app)
-        .patch('/users/1')
+        .put('/api/v1/users/1')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200, done);
     });
-  });
+ 
 
-  describe('Delete rsvp', () => {
-    it('Deleted rsvp', (done) => {
+  /*describe('Delete user', () => {
+    it('Deleted user', (done) => {
       request(app)
-        .delete('/users/1')
+        .delete('/api/v1/users/1')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
-        .expect(200, done);
+        .expect(204, done);
     });
-  });
+  });*/
 });
