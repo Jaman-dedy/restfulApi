@@ -6,13 +6,7 @@ const QuestionModel= require("../models/questionModel");
 
 module.exports= {
     createQuestion:(req, res)=>{
-    /* if(!req.body.createdBy && !req.body.meetup && !req.body.title && !req.body.body)
-     {
-         return res.status(400).json({
-             status : 400,
-             message : 'All fields are required'
-         })
-     }*/
+   
      const questionValidate = validate.questionValidate;
     const {error}= questionValidate(req.body) 
     if(error){
