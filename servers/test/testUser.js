@@ -3,36 +3,48 @@
 // eslint-disable-next-line
 const assert = require('chai').assert;
 const request = require('supertest');
-const app = require('../../app');
-
+const chai = require('chai');
+const {expect}=require('chai');
+chaiHttp = require('chai-http');
+const app = require('../index');
+/*
+chai.use(chaiHttp);
+describe("somr",()=>{
+  describe("dskf",()=>{
+    chai.request(app)
+     .get("/api/v1/users")
+     .end((err,res)=>{
+       expect(res.body).to.be.an('object');
+     })
+  })
+})*/
 describe('Testing user endpoints', () => {
-  describe('All users', () => {
+ 
     it('All users', (done) => {
       request(app)
-        .get('/users')
+        .get('/api/v1/users')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200, done);
     });
-  });
-  describe('Find a specific user', () => {
+  
+
     it('Get a specific user', (done) => {
       request(app)
-        .get('/users/1')
+        .get('/api/v1/users/1')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200, done);
     });
-  });
+  
 
-  describe('Specific user not found', () => {
     const error = {
-      status: 404,
-      error: 'user with the given Id not exists'
+      status : 404,
+      message : 'User not found'
     };
     it('Given user Id not found', (done) => {
       request(app)
-        .get('/users/30')
+        .get('/api/v1/users/30')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(404)
@@ -42,9 +54,8 @@ describe('Testing user endpoints', () => {
           done();
         });
     });
-  });
+  
 
-  describe('Post user', () => {
     const user = {
       id: 1,
       firstname: 'Emmanuel',
@@ -54,7 +65,7 @@ describe('Testing user endpoints', () => {
     };
     it('Create a user', (done) => {
       request(app)
-        .post('/users')
+        .post('/api/v1/users')
         .send(user)
         .set('Accept', 'application/json')
         .expect(201)
@@ -63,25 +74,24 @@ describe('Testing user endpoints', () => {
           done();
         });
     });
-  });
+  
 
-  describe('udpate user', () => {
     it('Updated user', (done) => {
       request(app)
-        .patch('/users/1')
+        .put('/api/v1/users/1')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200, done);
     });
-  });
+ 
 
-  describe('Delete user', () => {
+  /*describe('Delete user', () => {
     it('Deleted user', (done) => {
       request(app)
-        .delete('/users/1')
+        .delete('/api/v1/users/1')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
-        .expect(200, done);
+        .expect(204, done);
     });
-  });
+  });*/
 });

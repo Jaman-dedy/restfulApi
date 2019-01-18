@@ -2,47 +2,74 @@ const uuid= require("uuid");
 
 // Models
 
-const User= require("../models/userModel");
+const UserModel= require("../models/userModel");
 
 module.exports= {
-    create:(req, res)=>{
-     const newUser={
-     id:User.findAllUsers().length+1,
-     firstname:req.body.firstname,
-     lastname:req.body.lastname,
-     othername:req.body.othername,
-     email:req.body.email,
-     phoneNumber:req.body.phoneNumber,
-     username:req.body.username,
-     registered:req.body.registered,
-     isAdmin:req.body.isAdmin
-     };
-     User.createNewUser(newUser);
+    createUser:(req, res)=>{
+     if(!req.body.firstname && !req.body.lastname && !req.body.othername && !req.body.email && req.body.phoneNumber && !req.body.username && req.body.registered && !req.body.isAdmin)
+     {
+         return res.status(400).json({
+             status : 400,
+             message : 'All fields are required'
+         })
+     }
+     const user = UserModel.createNewUser(req.body)
      return res.status(201).json({
          status : 201,
-         data : [newUser]
+         data : [user]
      });
     },
-    all:(req, res)=>{
-        const users=User.findAllUsers();
+    getAllUser:(req, res)=>{
+        const users=UserModel.findAllUsers();
         return res.status(200).json({
             status : 200,
             data : users
         });
 
     },
-    userId:(req, res)=>{
-        const user = User.findUserById(req.params.id);
-        if(!user){
+    getOneUser:(req, res)=>{
+        const userId=parseInt(req.params.id, 10);
+        const user = UserModel.findUserById(userId);
+      if(!user){
             return res.status(404).json({
-                status : 200,
-                message : 'Id not found'
-            })
+                status : 404,
+                message : 'User not found'
+            });
         }
         return res.status(200).json({
             status : 200,
             data : user
         })
+    },
+    updateUser:(req, res)=>{
+        const userId = parseInt(req.params.id, 10);
+        const user = UserModel.findUserById(userId);
+        if(!user){
+            return res.status(404).json({
+                status : 404,
+                message : 'user not found'
+            })
+        }
+        const userUpdated = UserModel.update(userId, req.body);
+        return res.status(200).json({
+            status: 200,
+            data : userUpdated
+        })
+    },
+    deleteUser:(req, res)=>{
+        const userId = parseInt(req.params.id, 10);
+        const user = UserModel.findUserById(userId);
+       
+        if(!user){
+            return res.status(404).json({
+                status : 404,
+                message : 'not found'
+            })
+        }
+         const userDeleted = UserModel.delete(userId);
+         return res.status(204).json({
+             status : 204
+         })
     }
 
 
