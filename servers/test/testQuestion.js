@@ -43,7 +43,7 @@ describe('Testing question endpoints', () => {
 
     const question = {
       
-      user: 1,
+      createdBy: 1,
       meetup: 2,
       title: 'Algrorithm complexity',
       body: 'How to set the order of functions?'
