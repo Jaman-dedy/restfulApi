@@ -95,9 +95,3 @@ For completing this project, we use a large base of ressources, we provide below
 ` MIT © `[Jeand de Dieu AMANI MPANGIRWA](https://github.com/Jaman-dedy)
 
 
-
-
-
-
-
-
