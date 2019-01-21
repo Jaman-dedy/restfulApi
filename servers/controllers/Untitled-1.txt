@@ -1,0 +1,32 @@
+  /*async createUser(req, res){           
+    const user = `
+    INSERT INTO user(firstname, lastname, othername, email, phonenumber, username, registered, isadmin ) 
+    VALUES($1, $2, $3, $4, $5, $6, $7, $8) returning *`;
+   
+        const values = [
+            req.body.firstname,
+            req.body.lastname,
+            req.body.othername,
+            req.body.email,
+            req.body.phonenumber,
+            req.body.username,
+            current,
+            req.body.isadmin
+        ];
+       
+
+        try {
+            const { rows } = await db.query(user, values);           
+            return res.status(201).json({
+                status: 201,
+                data: rows[0]
+               
+            });
+        } catch (error) {
+            
+            return res.status(400).json({
+                status: 400,
+                message: error
+            });
+        }
+       }*/
