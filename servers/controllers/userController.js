@@ -11,7 +11,8 @@ module.exports = {
         const
             { firstname, lastname, othername, email, phonenumber, username, isadmin } = req.body;
 
-        pool.query('INSERT INTO users (firstname, lastname, othername, email, phonenumber, username, isadmin) VALUES ($1,$2,$3,$4,$5,$6,$7)', [firstname, lastname, othername, email, phonenumber, username, isadmin], (err, results) => {
+        pool.query('INSERT INTO users (firstname, lastname, othername, email, phonenumber, username, isadmin) VALUES ($1,$2,$3,$4,$5,$6,$7)', 
+        [firstname, lastname, othername, email, phonenumber, username, isadmin], (err, results) => {
             if (err) {
                 throw err;
             } else {
@@ -42,6 +43,12 @@ module.exports = {
             if (err) {
                 throw err;
             }
+            if(result.rows.length===0){
+                return res.status(404).json({
+                    status : 404,
+                    error:"user not found"
+                });
+            }
             res.status(200).json({
                 status: 200,
                 data: result.rows
@@ -51,14 +58,21 @@ module.exports = {
     updateUser: (req, res) => {
         const userId = parseInt(req.params.userId, 10);
 
-        const { firstname, lastname, othername } = req.body;
-
+        const  { firstname, lastname, othername, email, phonenumber, username, isadmin } = req.body;
+        const current = dateTime();
+       
         pool.query(
-            'UPDATE users SET firstname = $1, lastname = $2, othername = $3 WHERE id_user = $4',
-            [firstname, lastname, othername, userId],
-            (err, results) => {
+            'UPDATE users SET firstname = $1, lastname = $2, othername = $3,email = $4, phonenumber= $5, username= $6, registered= $7, isadmin= $8 WHERE id_user = $9',
+            [firstname, lastname, othername, email, phonenumber, username,current, isadmin, userId],
+            (err, result) => {
                 if (err) {
                     throw err;
+                }
+                if(result.rows.length===0){
+                    return res.status(404).json({
+                        status : 404,
+                        error:"user not found"
+                    });
                 }
                 res.status(200).json({
                     status: 200,
