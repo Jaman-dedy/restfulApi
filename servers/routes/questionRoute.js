@@ -12,6 +12,7 @@ router.get("/:id", userControl.getOneQuestion);
 router.put("/:id", userControl.updateQuestion);
 router.patch("/:id/upvote", userControl.upvoteQuestion );
 router.patch("/:id/downvote", userControl.downvoteQuestion);
+
 //router.delete("/:id", userControl.deleteQuestion);
 
 module.exports = router;

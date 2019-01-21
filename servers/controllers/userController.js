@@ -11,7 +11,7 @@ module.exports = {
         const
             { firstname, lastname, othername, email, phonenumber, username, isadmin } = req.body;
 
-        pool.query('INSERT INTO users (firstname, lastname, othername, email, phonenumber, username, isadmin) VALUES ($1,$2,$3,$4,$5,$6,$7)', 
+        pool.query('INSERT INTO users (firstname, lastname, othername, email, phonenumber, username, isadmin) VALUES ($1,$2,$3,$4,$5,$6,$7)',
         [firstname, lastname, othername, email, phonenumber, username, isadmin], (err, results) => {
             if (err) {
                 throw err;
@@ -60,7 +60,7 @@ module.exports = {
 
         const  { firstname, lastname, othername, email, phonenumber, username, isadmin } = req.body;
         const current = dateTime();
-       
+
         pool.query(
             'UPDATE users SET firstname = $1, lastname = $2, othername = $3,email = $4, phonenumber= $5, username= $6, registered= $7, isadmin= $8 WHERE id_user = $9',
             [firstname, lastname, othername, email, phonenumber, username,current, isadmin, userId],
@@ -81,7 +81,6 @@ module.exports = {
             }
         );
     },
-
     deleteUser: (req, res) => {
         const userId = parseInt(req.params.userId, 10);
 
@@ -95,8 +94,20 @@ module.exports = {
                 data: `User deleted with ID: ${userId}`
             });
         });
+    },
+    getUsername:(req,res)=>{
+        const username=req.params.username;
+        pool.query("SELECT * FROM users WHERE username=$1",[username])
+          .then(users=>{
+            if (users.rows.length===0) {
+              return res.status(404).json({error:"user not found"});
+            }
+            return res.json({users:users.rows});
+          })
+          .catch(error=>{
+            console.log(error);
+          })
     }
-
 
 }
 
