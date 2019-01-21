@@ -1,7 +1,6 @@
 const uuid = require("uuid");
 const dateTime = require('date-time');
 
-
 //using db
 //const db = require('../dbparams/index')
 const pool = require("../config/connection");
