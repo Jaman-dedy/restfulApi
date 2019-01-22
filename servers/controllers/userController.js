@@ -1,5 +1,6 @@
 const uuid = require("uuid");
 const dateTime = require('date-time');
+const bcrypt = require("bcryptjs");
 
 //using db
 //const db = require('../dbparams/index')
@@ -9,18 +10,30 @@ module.exports = {
     createUser: (req, res) => {
         const
             { firstname, lastname, othername, email, phonenumber, username, isadmin } = req.body;
-
-        pool.query('INSERT INTO users (firstname, lastname, othername, email, phonenumber, username, isadmin) VALUES ($1,$2,$3,$4,$5,$6,$7)',
-        [firstname, lastname, othername, email, phonenumber, username, isadmin], (err, results) => {
+        bcrypt.genSalt(10, (err, salt) => {
             if (err) {
-                throw err;
-            } else {
-                res.status(201).json({
-                    status: 201,
-                    data: [req.body]
-                });
+                console.log(err);
             }
-        });
+            bcrypt.hash(req.body.password, salt, (er, hash) => {
+                if (er) {
+                    console.log(er);
+                }
+                pool.query('INSERT INTO users (firstname, lastname, othername, email, phonenumber, username, isadmin,password) VALUES ($1,$2,$3,$4,$5,$6,$7,$8)',
+                    [firstname, lastname, othername, email, phonenumber, username, isadmin, hash], (err, results) => {
+                        if (err) {
+                            throw err;
+                        } else {
+                            res.status(201).json({
+                                status: 201,
+                                data: results.rows
+                            });
+                        }
+                    });
+
+            })
+        })
+
+        /**/
     },
 
     getAllUser: (req, res) => {
@@ -42,10 +55,10 @@ module.exports = {
             if (err) {
                 throw err;
             }
-            if(result.rows.length===0){
+            if (result.rows.length === 0) {
                 return res.status(404).json({
-                    status : 404,
-                    error:"user not found"
+                    status: 404,
+                    error: "user not found"
                 });
             }
             res.status(200).json({
@@ -57,20 +70,20 @@ module.exports = {
     updateUser: (req, res) => {
         const userId = parseInt(req.params.userId, 10);
 
-        const  { firstname, lastname, othername, email, phonenumber, username, isadmin } = req.body;
+        const { firstname, lastname, othername, email, phonenumber, username, isadmin } = req.body;
         const current = dateTime();
 
         pool.query(
             'UPDATE users SET firstname = $1, lastname = $2, othername = $3,email = $4, phonenumber= $5, username= $6, registered= $7, isadmin= $8 WHERE id_user = $9',
-            [firstname, lastname, othername, email, phonenumber, username,current, isadmin, userId],
+            [firstname, lastname, othername, email, phonenumber, username, current, isadmin, userId],
             (err, result) => {
                 if (err) {
                     throw err;
                 }
-                if(result.rows.length===0){
+                if (result.rows.length === 0) {
                     return res.status(404).json({
-                        status : 404,
-                        error:"user not found"
+                        status: 404,
+                        error: "user not found"
                     });
                 }
                 res.status(200).json({
@@ -94,18 +107,18 @@ module.exports = {
             });
         });
     },
-    getUsername:(req,res)=>{
-        const username=req.params.username;
-        pool.query("SELECT * FROM users WHERE username=$1",[username])
-          .then(users=>{
-            if (users.rows.length===0) {
-              return res.status(404).json({error:"user not found"});
-            }
-            return res.json({users:users.rows});
-          })
-          .catch(error=>{
-            console.log(error);
-          })
+    getUsername: (req, res) => {
+        const username = req.params.username;
+        pool.query("SELECT * FROM users WHERE username=$1", [username])
+            .then(users => {
+                if (users.rows.length === 0) {
+                    return res.status(404).json({ error: "user not found" });
+                }
+                return res.json({ users: users.rows });
+            })
+            .catch(error => {
+                console.log(error);
+            })
     }
 
 }
