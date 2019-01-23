@@ -24,8 +24,6 @@ class Validate{
     rsvpValidate(rsvp){
         const schema={           
             
-                meetup: joi.number().required(),
-                user: joi.number().required(),
                 response: joi.string().required().min(2).trim()
            
         }

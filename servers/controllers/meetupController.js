@@ -5,10 +5,12 @@ const validate = require('../helpers/utilities');
 //using db
 const pool = require('../config/connection');
 
-// Models
-
+// Models to remove
 const MeetupModel = require("../models/meetupModel");
-const RsvpModel = require("../models/rsvpModel")
+const RsvpModel = require("../models/rsvpModel");
+
+
+
 
 module.exports = {
     createMeetup: (req, res) => {
@@ -39,6 +41,8 @@ module.exports = {
     },
 
     createMeetupRsvp: (req, res) => {
+        const {response } = req.body;
+        const meetupId = parseInt(req.params.meetupId, 10);
 
         const rsvpValidate = validate.rsvpValidate;
         const { error } = rsvpValidate(req.body)
@@ -47,11 +51,38 @@ module.exports = {
                 status: 400,
                 error: error.details[0].message
             })
-        }
-        const rsvp = RsvpModel.createNewRsvp(req.body);
-        return res.status(201).json({
-            status: 201,
-            data: [rsvp]
+        }        
+        pool.query('SELECT * FROM meetup WHERE id_meetup = $1', [meetupId], (err, result) => {
+            if (err) {
+               console.log(err);
+            }
+            else if(result.rows.length===0){
+                return res.status(404).json({
+                    status : 404,
+                    error:"meetup not found"
+                });
+            }
+       
+            else {
+                pool.query('INSERT INTO rsvp (id_meetup, id_user, response) VALUES ($1,$2,$3) RETURNING *',
+                [meetupId, req.user.id, response], (err, results) => {
+
+                   if (error) {
+                        console.log(error)
+                        return res.status(400).json({
+                            status: 400,
+                            error: error.details[0].message
+                        })
+                    }
+                    else {
+                        res.status(201).json({
+                            status: 201,
+                            data: results.rows
+                        });
+                    }
+                });
+
+            }
         });
     },
     getAllMeetup: (req, res) => {
@@ -83,7 +114,7 @@ module.exports = {
         const meetupId = parseInt(req.params.meetupId, 10);
         pool.query('SELECT * FROM meetup WHERE id_meetup = $1', [meetupId], (err, result) => {
             if (err) {
-                throw err;
+               console.log(err);
             }
             if(result.rows.length===0){
                 return res.status(404).json({
