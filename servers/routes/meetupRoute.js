@@ -1,19 +1,22 @@
-const express= require("express");
+import express from 'express';
+import userAuthentication from '../middleware/authentication';
+import meetupControl from '../controllers/meetupController';
+
 const router = express.Router();
 
-//controller
+// const auth=require("../controllers/userController");
+// const role=require("../middleware/role");
 
-meetupControl = require("../controllers/meetupController");
-const auth=require("../controllers/userController");
-const role=require("../middleware/role");
-// user endpoints
-router.post("/",auth.verifyToken,role.role, meetupControl.createMeetup);
-router.post("/:meetupId/rsvps",auth.verifyToken,meetupControl.createMeetupRsvp);
-router.get("/", auth.verifyToken,meetupControl.getAllMeetup);
-router.get("/upcoming", auth.verifyToken, meetupControl.getUpcoming);
-router.get("/:meetupId", auth.verifyToken, meetupControl.getOneMeetup);
-router.put("/:meetupId", auth.verifyToken, role.role, meetupControl.updateMeetup);
-router.delete("/:meetupId", auth.verifyToken, role.role, meetupControl.deleteMeetup);
+// Meetup endpoints
+router.post('/', userAuthentication.verifyToken, userAuthentication.verifyAdmin, meetupControl.createMeetup);
+router.post('/:meetupId/rsvps', userAuthentication.verifyToken, meetupControl.createMeetupRsvp);
+router.post('/:meetupId/questions', userAuthentication.verifyToken, meetupControl.createMeetupQuestion);
+router.get('/', userAuthentication.verifyToken, meetupControl.getAllMeetup);
+router.get('/upcoming', userAuthentication.verifyToken, meetupControl.getUpcoming);
+router.get('/:meetupId', userAuthentication.verifyToken, meetupControl.getOneMeetup);
+router.get('/:meetupId/questions', userAuthentication.verifyToken, meetupControl.getAllquestion);
+// router.put("/:meetupId", auth.verifyToken, role.role, meetupControl.updateMeetup);
+router.delete('/:meetupId', userAuthentication.verifyToken, userAuthentication.verifyAdmin, meetupControl.deleteMeetup);
 
 
-module.exports = router;
+export default router;

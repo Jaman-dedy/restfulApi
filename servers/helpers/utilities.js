@@ -1,35 +1,48 @@
-const joi = require('joi');
-class Validate{
-    meetupValidate(meetup){
-        const schema={
-            location: joi.string().required().min(4).trim(),
-            images: joi.array().items(joi.string(), joi.string()),
-            topic: joi.string().required().min(4).trim(),
-            happeningon: joi.date().required(),
-            tags:joi.array().items(joi.string(), joi.string())
-        };
-        return joi.validate(meetup, schema);
-    }
-    questionValidate(question){
-        const schema={
-           
-            createdBy: joi.number().required(),
-            meetup: joi.number().required(),
-            title: joi.string().required().min(5).trim(),
-            body: joi.string().required().min(10).trim()
-           
-        }
-        return joi.validate(question, schema);
-    }
-    rsvpValidate(rsvp){
-        const schema={           
-            
-                response: joi.string().required().min(2).trim()
-           
-        }
-        return joi.validate(rsvp, schema);
-    }
+/* eslint-disable class-methods-use-this */
+import joi from 'joi';
 
+class Validate {
+  meetupValidate(meetup) {
+    const options = {
+      allowUnknown: true,
+      abortEarly: false
+    };
+    const schema = {
+      location: joi.string().required().min(4).trim(),
+      images: joi.array().items(joi.string(), joi.string()),
+      topic: joi.string().required().min(4).trim(),
+      happeningon: joi.date().required(),
+      tags: joi.array().items(joi.string(), joi.string())
+    };
+    return joi.validate(meetup, schema, options);
+  }
+
+  questionValidate(question) {
+    const options = {
+      allowUnknown: true,
+      abortEarly: false
+    };
+    const schema = {
+
+      title: joi.string().required().min(5).trim(),
+      body: joi.string().required().min(10).trim()
+
+    };
+    return joi.validate(question, schema, options);
+  }
+
+  rsvpValidate(rsvp) {
+    const options = {
+      allowUnknown: true,
+      abortEarly: false
+    };
+    const schema = {
+
+      response: joi.string().required().min(2).trim()
+
+    };
+    return joi.validate(rsvp, schema, options);
+  }
 }
 
 module.exports = new Validate();

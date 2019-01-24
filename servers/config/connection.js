@@ -1,7 +1,7 @@
-const {Pool}=require("pg");
+import { Pool } from 'pg';
 
-const pool=new Pool({
-    connectionString:"postgresql://jaman:123@localhost:5432/questioner"
+const pool = new Pool({
+  connectionString: 'postgresql://jaman:123@localhost:5432/questioner'
 });
 
-module.exports=pool;
+export default pool;

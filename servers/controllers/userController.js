@@ -1,199 +1,176 @@
-const uuid = require("uuid");
-const dateTime = require('date-time');
-const bcrypt = require("bcryptjs");
-const jwt = require('jsonwebtoken');
-const Keys=require("../config/keys");
+import jwt from 'jsonwebtoken';
 
-//using db
-//const db = require('../dbparams/index')
-const pool = require("../config/connection");
+import dateTime from 'date-time';
+import bcrypt from 'bcryptjs';
+import keys from '../config/keys';
+import pool from '../config/connection';
+
+
 const current = dateTime();
-module.exports = {
+const userController = {
 
-    // Format of token
-    // Autorization: Bearer <token>
 
-    verifyToken: (req,res, next) => {
-        // get auth header value
-        try{
-            const token = req.headers.authorization;
-           const someone=token.split(" ");
-            const real=someone[1];
-            const decoded=jwt.verify(real,Keys.secret);
-            req.user=decoded;
-            next();
+  login: (req, res) => {
+    const { email, password } = req.body;
+
+    pool.query('SELECT * FROM users WHERE email = $1', [email], (err, result) => {
+      if (err) {
+        throw err;
+      }
+      if (!bcrypt.compareSync(password, result.rows[0].password)) {
+        return res.status(400).json({
+          status: 400,
+          error: 'Bad password, plz try again'
+        });
+      }
+      const userlog = {
+        username: result.rows[0].username,
+        email: result.rows[0].email,
+        id: result.rows[0].id_user
+      };
+
+      jwt.sign(userlog, keys.secret, { expiresIn: 3600 }, (err, token) => {
+        if (err) {
+          throw err;
         }
-        catch(error){
-            return res.status(401).json({error:"Auth failed."})
+        res.status(200).json({
+          status: 200,
+          user: result.rows,
+          token
+        });
+      });
+    });
+  },
+  createUser: (req, res) => {
+    const {
+      firstname, lastname, othername, email, phonenumber, username, password
+    } = req.body;
+
+
+    const hash = bcrypt.hashSync(password);
+   
+    const payload = {
+      email: req.body.email,
+      username: req.body.username
+
+    };
+    jwt.sign(payload, keys.secret, { expiresIn: 3600 }, (err, token) => {
+      if (err) {
+        throw err;
+      } else {
+        pool.query('SELECT * FROM users WHERE email = $1', [email], (err, result) => {
+          if (err) {
+            throw err;
+          }
+          if (result.rows.length > 0) {
+            return res.status(400).json({
+              status: 400,
+              error: 'Email address already used, choose another'
+            });
+          }
+          pool.query('INSERT INTO users (firstname, lastname, othername, email, phonenumber, username, password) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *',
+            [firstname, lastname, othername, email, phonenumber, username, hash], (err, results) => {
+              if (err) {
+                throw err;
+              } else {
+                res.status(201).json({
+                  status: 201,
+                  data: results.rows,
+                  token
+                });
+              }
+            });
+        });
+      }
+    });
+  },
+
+  getAllUser: (req, res) => {
+    pool.query('SELECT * FROM users', (err, result) => {
+      if (err) {
+        throw err;
+      }
+      res.status(200).json({
+        status: 200,
+        data: result.rows
+      });
+    });
+  },
+  getOneUser: (req, res) => {
+    const userId = parseInt(req.params.userId, 10);
+    pool.query('SELECT * FROM users WHERE id_user = $1', [userId], (err, result) => {
+      if (err) {
+        throw err;
+      }
+      if (result.rows.length === 0) {
+        return res.status(404).json({
+          status: 404,
+          error: 'user not found'
+        });
+      }
+      res.status(200).json({
+        status: 200,
+        data: result.rows
+      });
+    });
+  },
+  updateUser: (req, res) => {
+    const userId = parseInt(req.params.userId, 10);
+
+    const {
+      firstname, lastname, othername, email, phonenumber, username
+    } = req.body;
+    const dateUpdate = dateTime();
+
+    pool.query(
+      'UPDATE users SET firstname = $1, lastname = $2, othername = $3,email = $4, phonenumber= $5, username= $6, registered= $7 WHERE id_user = $8',
+      [firstname, lastname, othername, email, phonenumber, username, dateUpdate, userId],
+      (err, result) => {
+        if (err) {
+          throw err;
         }
-       
-    },
-
-    login: (req, res) => {
-        const { username } = req.body;
-
-        pool.query('SELECT * FROM users WHERE username = $1', [username], (err, result) => {
-            if (err) {
-                throw err;
-            }
-            if (result.rows.length === 0) {
-                return res.status(404).json({
-                    status: 404,
-                    error: "user not found"
-                });
-            }
-            const userlog ={
-                username:result.rows[0].username,
-                email:result.rows[0].email,
-                id:result.rows[0].id_user,
-                firstname:result.rows[0].firstname,
-                lastname:result.rows[0].lastname,
-                isadmin:result.rows[0].isadmin
-            };
-
-            jwt.sign(userlog, Keys.secret, {expiresIn:3600},(err, token) => {
-                if(err){
-                    console.log(err);
-                }
-                res.status(200).json({
-                    status: 200,
-                    user:result.rows,
-                    token:token
-                })
-            });
-
+        if (result.rows.length === 0) {
+          return res.status(404).json({
+            status: 404,
+            error: 'user not found'
+          });
+        }
+        res.status(200).json({
+          status: 200,
+          data: [req.body]
         });
+      }
+    );
+  },
+  deleteUser: (req, res) => {
+    const userId = parseInt(req.params.userId, 10);
 
-    },
-    createUser: (req, res) => {
+    pool.query('DELETE FROM users WHERE id_user = $1', [userId], (err, results) => {
+      if (err) {
+        throw err;
+      }
 
-        jwt.verify(req.token, 'emmanuel', (err, authData) => {
-            if (err) {
-                res.status(403).json({
-                    status: 403,
-                    errof: Forbidden
-                })
+      res.status(200).json({
+        status: 200,
+        data: `User deleted with ID: ${userId}`
+      });
+    });
+  },
+  getUsername: (req, res) => {
+    const username = req.params.username;
+    pool.query('SELECT * FROM users WHERE username=$1', [username])
+      .then((users) => {
+        if (users.rows.length === 0) {
+          return res.status(404).json({ error: 'user not found' });
+        }
+        return res.json({ users: users.rows });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
-            } else {
-                const
-                    { firstname, lastname, othername, email, phonenumber, username, isadmin } = req.body;
-                bcrypt.genSalt(10, (err, salt) => {
-                    if (err) {
-                        console.log(err);
-                    }
-                    bcrypt.hash(req.body.password, salt, (er, hash) => {
-                        if (er) {
-                            console.log(er);
-                        }
-                        pool.query('INSERT INTO users (firstname, lastname, othername, email, phonenumber, username, isadmin,password) VALUES ($1,$2,$3,$4,$5,$6,$7,$8)',
-                            [firstname, lastname, othername, email, phonenumber, username, isadmin, hash], (err, results) => {
-                                if (err) {
-                                    throw err;
-                                } else {
-                                    res.status(201).json({
-                                        status: 201,
-                                        data: results.rows
-                                    });
-                                }
-                            });
-                            authData
+};
 
-                    })
-                })
+export default userController;
 
-            }
-
-        })
-
-
-        /**/
-    },
-
-    getAllUser: (req, res) => {
-
-        pool.query('SELECT * FROM users', (err, result) => {
-            if (err) {
-                throw err;
-            }
-            res.status(200).json({
-                status: 200,
-                data: result.rows
-            });
-        });
-
-    },
-    getOneUser: (req, res) => {
-        const userId = parseInt(req.params.userId, 10);
-        pool.query('SELECT * FROM users WHERE id_user = $1', [userId], (err, result) => {
-            if (err) {
-                throw err;
-            }
-            if (result.rows.length === 0) {
-                return res.status(404).json({
-                    status: 404,
-                    error: "user not found"
-                });
-            }
-            res.status(200).json({
-                status: 200,
-                data: result.rows
-            });
-        });
-    },
-    updateUser: (req, res) => {
-        const userId = parseInt(req.params.userId, 10);
-
-        const { firstname, lastname, othername, email, phonenumber, username, isadmin } = req.body;
-        const current = dateTime();
-
-        pool.query(
-            'UPDATE users SET firstname = $1, lastname = $2, othername = $3,email = $4, phonenumber= $5, username= $6, registered= $7, isadmin= $8 WHERE id_user = $9',
-            [firstname, lastname, othername, email, phonenumber, username, current, isadmin, userId],
-            (err, result) => {
-                if (err) {
-                    throw err;
-                }
-                if (result.rows.length === 0) {
-                    return res.status(404).json({
-                        status: 404,
-                        error: "user not found"
-                    });
-                }
-                res.status(200).json({
-                    status: 200,
-                    data: [req.body]
-                });
-            }
-        );
-    },
-    deleteUser: (req, res) => {
-        const userId = parseInt(req.params.userId, 10);
-
-        pool.query('DELETE FROM users WHERE id_user = $1', [userId], (err, results) => {
-            if (err) {
-                throw err;
-            }
-
-            res.status(200).json({
-                status: 200,
-                data: `User deleted with ID: ${userId}`
-            });
-        });
-    },
-    getUsername: (req, res) => {
-        const username = req.params.username;
-        pool.query("SELECT * FROM users WHERE username=$1", [username])
-            .then(users => {
-                if (users.rows.length === 0) {
-                    return res.status(404).json({ error: "user not found" });
-                }
-                return res.json({ users: users.rows });
-            })
-            .catch(error => {
-                console.log(error);
-            })
-    }
-
-}
-
-// Models
