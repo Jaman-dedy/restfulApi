@@ -155,10 +155,10 @@ const userController = {
       firstname, lastname, othername, email, phonenumber, username
     } = req.body;
     const dateUpdate = dateTime();
-
+   const isadmin = false;
     pool.query(
-      'UPDATE users SET firstname = $1, lastname = $2, othername = $3,email = $4, phonenumber= $5, username= $6, registered= $7 WHERE id_user = $8',
-      [firstname, lastname, othername, email, phonenumber, username, dateUpdate, userId],
+      'UPDATE users SET firstname = $1, lastname = $2, othername = $3,email = $4, phonenumber= $5, username= $6, registered= $7, isadmin= $8 WHERE id_user = $9',
+      [firstname, lastname, othername, email, phonenumber, username, dateUpdate, isadmin, userId],
       (err, result) => {
         if (err) {
           throw err;

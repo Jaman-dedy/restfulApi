@@ -39,10 +39,8 @@ class Validate {
     };
     const schema = {
       location: joi.string().required().min(4).trim(),
-      images: joi.array().items(joi.string(), joi.string()),
       topic: joi.string().required().min(4).trim(),
-      happeningon: joi.date().required(),
-      tags: joi.array().items(joi.string(), joi.string())
+      happeningon: joi.date().required()
     };
     return joi.validate(meetup, schema, options);
   }

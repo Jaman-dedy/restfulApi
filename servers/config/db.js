@@ -13,30 +13,29 @@ pool.on('connect', ()=> {
 
 const createTables = () => {
     const queryText = `
-    CREATE TABLE IF NOT EXISTS users (
+    CREATE TABLE public.users
+    (
         id_user serial PRIMARY KEY,
-        firstname character varying(50) NOT NULL,
-        lastname character varying(50) NOT NULL,
-        othername character varying(50) NOT NULL,
-        email character varying(50) UNIQUE NOT NULL,
-        password character varying(1000) NOT NULL,
-        phonenumber character varying(50) NOT NULL,
-        username character varying(50) NOT NULL,
-        registered timestamp without time zone DEFAULT now(),
-        isadmin boolean NOT NULL
-      );    
-
-      CREATE TABLE IF NOT EXISTS meetup (
-        id_meetup serial PRIMARY KEY,
-        createdon timestamp without time zone DEFAULT now(),
-        location character varying(50) NOT NULL,
-        images character varying(100) NOT NULL,
-        topic character varying(1000) NOT NULL,
-        happeningon timestamp without time zone NOT NULL,
-        tags character varying(100) NOT NULL
-       
-      ); 
-
+        firstname character varying(50),
+        lastname character varying(50),
+        othername character varying(50),
+        email character varying(50),
+        phonenumber character varying(50),
+        username character varying(50),
+        registered date NOT NULL DEFAULT CURRENT_DATE,
+        isadmin boolean NOT NULL DEFAULT false,
+        password character varying(250)
+    ); 
+      CREATE TABLE public.meetup
+      (
+          id_meetup serial PRIMARY KEY,
+          createdon date NOT NULL DEFAULT CURRENT_DATE,
+          location character varying(50),
+          images character varying(2000)[],
+          topic character varying(50),
+          happeningon date,
+          tags character varying(2000)[]
+      );
       CREATE TABLE IF NOT EXISTS question (
         id_question serial PRIMARY KEY,
         createdon timestamp without time zone DEFAULT now(),
