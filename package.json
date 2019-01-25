@@ -6,7 +6,8 @@
   "scripts": {
     "test": "nyc mocha servers/test",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "start": "nodemon --exec babel-node server.js",
+    "start": "babel-node server.js",
+    "start1": "nodemon --exec babel-node server.js",
     "dev": " node servers/config/db"
   },
   "repository": {
