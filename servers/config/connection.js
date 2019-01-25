@@ -1,7 +1,11 @@
 import { Pool } from 'pg';
+import dotenv from 'dotenv';
 
+dotenv.config();
+
+console.log(process.env.DATABASE_URL, "==============");
 const pool = new Pool({
-  connectionString: 'postgresql://jaman:123@localhost:5432/questioner'
+  connectionString: process.env.DATABASE_URL
 });
 
 export default pool;

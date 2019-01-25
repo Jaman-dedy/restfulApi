@@ -13,7 +13,7 @@ pool.on('connect', ()=> {
 
 const createTables = () => {
     const queryText = `
-    CREATE TABLE IF NOT EXISTS user (
+    CREATE TABLE IF NOT EXISTS users (
         id_user serial PRIMARY KEY,
         firstname character varying(50) NOT NULL,
         lastname character varying(50) NOT NULL,
@@ -43,9 +43,8 @@ const createTables = () => {
         id_user integer,
         id_meetup integer,
         title character varying(100) NOT NULL,
-        body character varying(5000) NOT NULL,
-        upvote integer,
-        donwnvote integer         
+        body character varying(5000) NOT NULL
+               
       ); 
 
       CREATE TABLE IF NOT EXISTS rsvp (
@@ -56,7 +55,8 @@ const createTables = () => {
       );
 
       CREATE TABLE IF NOT EXISTS comment (
-        id_comment serial PRIMARY KEY,  
+        id_comment serial PRIMARY KEY,
+        id_user integer,  
         id_question integer,        
         comment character varying(500) NOT NULL       
       );

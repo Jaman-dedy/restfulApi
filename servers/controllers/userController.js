@@ -5,6 +5,8 @@ import bcrypt from 'bcryptjs';
 import keys from '../config/keys';
 import pool from '../config/connection';
 
+import validate from '../helpers/utilities';
+
 
 const current = dateTime();
 const userController = {
@@ -12,15 +14,25 @@ const userController = {
 
   login: (req, res) => {
     const { email, password } = req.body;
+    const validateLogin = validate.loginValidate;
+    const { error } = validateLogin(req.body);
+    if (error) {
+      const errorMessage = error.details.map(d => d.message);
+      return res.status(400).send({
+        status: 400,
+        error: errorMessage
+      });
+    }
 
     pool.query('SELECT * FROM users WHERE email = $1', [email], (err, result) => {
       if (err) {
+        console.log(err);
         throw err;
       }
       if (!bcrypt.compareSync(password, result.rows[0].password)) {
         return res.status(400).json({
           status: 400,
-          error: 'Bad password, plz try again'
+          error: 'Bad password, please try again'
         });
       }
       const userlog = {
@@ -33,9 +45,16 @@ const userController = {
         if (err) {
           throw err;
         }
+        const user = {
+          firstname: result.rows[0].firstname,
+          lastname: result.rows[0].lastname,
+          othername: result.rows[0].othername,
+          email: result.rows[0].email,
+          username: result.rows[0].username
+        };
         res.status(200).json({
           status: 200,
-          user: result.rows,
+          user: user,
           token
         });
       });
@@ -46,9 +65,17 @@ const userController = {
       firstname, lastname, othername, email, phonenumber, username, password
     } = req.body;
 
-
+    const validateUser = validate.userValidate;
+    const { error } = validateUser(req.body);
+    if (error) {
+      const errorMessage = error.details.map(d => d.message);
+      return res.status(400).send({
+        status: 400,
+        error: errorMessage
+      });
+    }
     const hash = bcrypt.hashSync(password);
-   
+
     const payload = {
       email: req.body.email,
       username: req.body.username
@@ -69,13 +96,20 @@ const userController = {
             });
           }
           pool.query('INSERT INTO users (firstname, lastname, othername, email, phonenumber, username, password) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *',
-            [firstname, lastname, othername, email, phonenumber, username, hash], (err, results) => {
+            [firstname, lastname, othername, email, phonenumber, username, hash], (err, result) => {
               if (err) {
                 throw err;
               } else {
+                const user = {
+                  firstname: result.rows[0].firstname,
+                  lastname: result.rows[0].lastname,
+                  othername: result.rows[0].othername,
+                  email: result.rows[0].email,
+                  username: result.rows[0].username
+                };
                 res.status(201).json({
                   status: 201,
-                  data: results.rows,
+                  data: user,
                   token
                 });
               }
@@ -173,4 +207,3 @@ const userController = {
 };
 
 export default userController;
-
