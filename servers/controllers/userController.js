@@ -26,7 +26,6 @@ const userController = {
 
     pool.query('SELECT * FROM users WHERE email = $1', [email], (err, result) => {
       if (err) {
-        console.log(err);
         throw err;
       }
       if (!bcrypt.compareSync(password, result.rows[0].password)) {

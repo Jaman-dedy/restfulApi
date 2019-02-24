@@ -1,32 +1,51 @@
-const {Pool} = require('pg');
-const dotenv= require('dotenv');
+import { Pool } from 'pg';
+import ENV from 'dotenv';
 
-dotenv.config();
+ENV.config();
 
-const pool = new Pool({
-    connection: process.env.DATABASE_URL
-});
+class Setup {
+    constructor() {
+        this.pool = new Pool({
+            user: process.env.PGUSER,
+            host: process.env.PGHOST,
+            database: process.env.PGDATABASE,
+            password: process.env.PGPASSWORD,
+            port: process.env.PGPORT,
+        });
 
-pool.on('connect', ()=> {
-    console.log('connected to the db');
-});
+        this.pool.on('connect', () => {
+            // console.log('connected...');
+        });
 
-const createTables = () => {
-    const queryText = `
-    CREATE TABLE public.users
-    (
-        id_user serial PRIMARY KEY,
-        firstname character varying(50),
-        lastname character varying(50),
-        othername character varying(50),
-        email character varying(50),
-        phonenumber character varying(50),
-        username character varying(50),
-        registered date NOT NULL DEFAULT CURRENT_DATE,
-        isadmin boolean NOT NULL DEFAULT false,
-        password character varying(250)
-    ); 
-      CREATE TABLE public.meetup
+        this.createTables();
+    }
+    createTables() {
+        
+        const users = `
+        CREATE TABLE IF NOT EXISTS users
+        (
+            id_user serial PRIMARY KEY,
+            firstname character varying(50),
+            lastname character varying(50),
+            othername character varying(50),
+            email character varying(50),
+            phonenumber character varying(50),
+            username character varying(50),
+            registered date NOT NULL DEFAULT CURRENT_DATE,
+            isadmin boolean NOT NULL DEFAULT false,
+            password character varying(250)
+        );`;
+
+        this.pool.query(users)
+        .then((res)=>{
+            console.log(res);
+        })
+        .catch((err)=> {
+            console.log(err);
+        });
+
+        const meetup = `
+        CREATE TABLE IF NOT EXISTS meetup
       (
           id_meetup serial PRIMARY KEY,
           createdon date NOT NULL DEFAULT CURRENT_DATE,
@@ -35,72 +54,67 @@ const createTables = () => {
           topic character varying(50),
           happeningon date,
           tags character varying(2000)[]
-      );
-      CREATE TABLE IF NOT EXISTS question (
-        id_question serial PRIMARY KEY,
-        createdon timestamp without time zone DEFAULT now(),
-        id_user integer,
-        id_meetup integer,
-        title character varying(100) NOT NULL,
-        body character varying(5000) NOT NULL
-               
-      ); 
+      );`;
 
-      CREATE TABLE IF NOT EXISTS rsvp (
-        id_rsvp serial PRIMARY KEY,  
-        id_meetup integer,
-        id_user integer,
-        response character varying(6) NOT NULL       
-      );
-
-      CREATE TABLE IF NOT EXISTS comment (
-        id_comment serial PRIMARY KEY,
-        id_user integer,  
-        id_question integer,        
-        comment character varying(500) NOT NULL       
-      );
-
-    `;
-
-    pool.query(queryText)
-    .then((res)=>{
-        console.log(res);
-        pool.end();
-    })
-    .catch((err)=> {
-        console.log(err);
-        pool.end();
-    });
-}
-    
-    // drop table
-    const dropTables = ()=> {
-        const queryText = 
-        `
-        DROP TABLE IF EXISTS user;
-        DROP TABLE IF EXISTS meetup;
-        DROP TABLE IF EXISTS question;
-        DROP TABLE IF EXISTS rsvp;
-        DROP TABLE IF EXISTS comment;        
-        `
-        pool.query(queryText)
-        .then((res)=> {
+        this.pool.query(meetup)
+        .then((res)=>{
             console.log(res);
-            pool.end();
         })
-        .catch((err)=>{
+        .catch((err)=> {
             console.log(err);
-            pool.end();
+        });
+
+        const question = `
+        CREATE TABLE IF NOT EXISTS question (
+            id_question serial PRIMARY KEY,
+            createdon timestamp without time zone DEFAULT now(),
+            id_user integer,
+            id_meetup integer,
+            title character varying(100) NOT NULL,
+            body character varying(5000) NOT NULL
+                   
+          );`;
+
+        this.pool.query(question)
+        .then((res)=>{
+            console.log(res);
         })
+        .catch((err)=> {
+            console.log(err);
+        });
+
+        const rsvp = `
+        CREATE TABLE IF NOT EXISTS rsvp (
+            id_rsvp serial PRIMARY KEY,  
+            id_meetup integer,
+            id_user integer,
+            response character varying(6) NOT NULL       
+          );`;
+
+        this.pool.query(rsvp)
+        .then((res)=>{
+            console.log(res);
+        })
+        .catch((err)=> {
+            console.log(err);
+        });
+
+        const comment = `
+        CREATE TABLE IF NOT EXISTS comment (
+            id_comment serial PRIMARY KEY,
+            id_user integer,  
+            id_question integer,        
+            comment character varying(500) NOT NULL       
+          );`;
+
+        this.pool.query(comment)
+        .then((res)=>{
+            console.log(res);
+        })
+        .catch((err)=> {
+            console.log(err);
+        });
     }
+}
 
-pool.on('remove', ()=> {
-    console.log('client removed');
-    process.exit(0);
-});
-module.exports = {
-    createTables,
-    dropTables
-};
-
-require('make-runnable');
+export default new Setup();

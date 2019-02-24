@@ -4,11 +4,10 @@
   "description": "Creating a node js Restful API Questioner",
   "main": "server/index.js",
   "scripts": {
-    "test": "nyc mocha babel-node servers/test",
+    "test": "nyc mocha --require babel-register  servers/test",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "start": "babel-node server.js",
-    "start1": "nodemon --exec babel-node server.js",
-    "dev": " node servers/config/db"
+    "start": "nodemon --exec babel-node server.js",
+    "createTables": " babel-node  servers/config/db.js"
   },
   "repository": {
     "type": "git",
@@ -27,16 +26,9 @@
   },
   "homepage": "https://github.com/Jaman-dedy/restfulApi#readme",
   "dependencies": {
-    "@babel/cli": "^7.2.3",
-    "@babel/core": "^7.2.2",
-    "@babel/node": "^7.2.2",
-    "@babel/plugin-proposal-object-rest-spread": "^7.3.1",
-    "@babel/plugin-transform-arrow-functions": "^7.2.0",
-    "@babel/polyfill": "^7.2.5",
-    "@babel/preset-env": "^7.3.1",
-    "@babel/register": "^7.0.0",
-    "babel-plugin-transform-async-to-generator": "^6.24.1",
-    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "date-time": "^2.1.0",
