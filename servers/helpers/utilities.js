@@ -8,13 +8,7 @@ class Validate {
       abortEarly: false
     };
     const schema = {
-      firstname: joi.string().required().min(4).trim(),
-      lastname: joi.string().required().min(4).trim(),
-      othername: joi.string().required().min(4).trim(),
-      email: joi.string().required().min(4).trim(),
-      phonenumber: joi.string().required().min(5).trim(),
-      username: joi.string().required().min(4).trim(),
-      password: joi.string().required().min(3).trim()
+      firstname: joi.string().required().min(2).trim()
     };
     return joi.validate(user, schema, options);
   }
@@ -57,6 +51,19 @@ class Validate {
 
     };
     return joi.validate(question, schema, options);
+  }
+
+  commentValidate(comment) {
+    const options = {
+      allowUnknown: true,
+      abortEarly: false
+    };
+    const schema = {
+
+      comment: joi.string().required().min(5).trim()
+
+    };
+    return joi.validate(comment, schema, options);
   }
 
   rsvpValidate(rsvp) {

@@ -51,8 +51,8 @@ const userController = {
           email: result.rows[0].email,
           username: result.rows[0].username
         };
-        res.status(200).json({
-          status: 200,
+        res.status(201).json({
+          status: 201,
           user: user,
           token
         });
@@ -74,7 +74,6 @@ const userController = {
       });
     }
     const hash = bcrypt.hashSync(password);
-
     const payload = {
       email: req.body.email,
       username: req.body.username
@@ -100,6 +99,7 @@ const userController = {
                 throw err;
               } else {
                 const user = {
+                  id_user: result.rows[0].id_user,
                   firstname: result.rows[0].firstname,
                   lastname: result.rows[0].lastname,
                   othername: result.rows[0].othername,
@@ -149,7 +149,6 @@ const userController = {
   },
   updateUser: (req, res) => {
     const userId = parseInt(req.params.userId, 10);
-
     const {
       firstname, lastname, othername, email, phonenumber, username
     } = req.body;
@@ -162,7 +161,7 @@ const userController = {
         if (err) {
           throw err;
         }
-        if (result.rows.length === 0) {
+        if (result.rowCount === 0) {
           return res.status(404).json({
             status: 404,
             error: 'user not found'
@@ -182,7 +181,12 @@ const userController = {
       if (err) {
         throw err;
       }
-
+      if (results.rowCount === 0) {
+        return res.status(404).json({
+          status: 404,
+          error: 'user not found'
+        });
+      }
       res.status(200).json({
         status: 200,
         data: `User deleted with ID: ${userId}`

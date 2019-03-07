@@ -4,9 +4,9 @@
   "description": "Creating a node js Restful API Questioner",
   "main": "server/index.js",
   "scripts": {
-    "test": "nyc mocha --require babel-register  servers/test",
+    "test": "NODE_ENV=TEST nyc mocha --require babel-register  servers/test",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "start": "nodemon --exec babel-node server.js",
+    "start": "NODE_ENV=DEV nodemon --exec babel-node server.js",
     "createTables": " babel-node  servers/config/db.js"
   },
   "repository": {
@@ -41,6 +41,7 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
+    "database-cleaner": "^1.3.0",
     "chai": "^4.2.0",
     "chai-http": "^4.2.1",
     "coveralls": "^3.0.2",

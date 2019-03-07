@@ -27,7 +27,7 @@ const questionController = {
         if (result.rows.length > 0) {
           return res.status(401).json({
             status: 401,
-            error: 'You are not allowed to upvote twice the same question'
+            error: 'You are not allowed to vote twice the same question'
           });
         }
         pool.query('INSERT INTO votes (id_user, id_question, votes) VALUES ($1,$2,$3) RETURNING *',
@@ -102,6 +102,15 @@ const questionController = {
     const { comment } = req.body;
     const questionId = parseInt(req.params.id, 10);
 
+    const validateComment = validate.commentValidate
+    const { error } = validateComment(req.body);
+    if (error) {
+      const errorMessage = error.details.map(d => d.message);
+      return res.status(400).send({
+        status: 400,
+        error: errorMessage
+      });
+    }
 
     pool.query('SELECT * FROM question WHERE id_question = $1', [questionId], (err, result) => {
       if (err) {
@@ -137,7 +146,7 @@ const questionController = {
       if (result.rows.length === 0) {
         return res.status(404).json({
           status: 404,
-          error: 'Actually no comment to that question'
+          error: 'Wrong question ID'
         });
       }
       res.status(200).json({

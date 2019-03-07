@@ -1,21 +1,11 @@
 import { Pool } from 'pg';
 import ENV from 'dotenv';
+import pool from './connection';
 
 ENV.config();
 
 class Setup {
     constructor() {
-        this.pool = new Pool({
-            user: process.env.PGUSER,
-            host: process.env.PGHOST,
-            database: process.env.PGDATABASE,
-            password: process.env.PGPASSWORD,
-            port: process.env.PGPORT,
-        });
-
-        this.pool.on('connect', () => {
-            // console.log('connected...');
-        });
 
         this.createTables();
     }
@@ -36,12 +26,10 @@ class Setup {
             password character varying(250)
         );`;
 
-        this.pool.query(users)
+        pool.query(users)
         .then((res)=>{
-            console.log(res);
         })
         .catch((err)=> {
-            console.log(err);
         });
 
         const meetup = `
@@ -56,12 +44,10 @@ class Setup {
           tags character varying(2000)[]
       );`;
 
-        this.pool.query(meetup)
+        pool.query(meetup)
         .then((res)=>{
-            console.log(res);
         })
         .catch((err)=> {
-            console.log(err);
         });
 
         const question = `
@@ -75,12 +61,10 @@ class Setup {
                    
           );`;
 
-        this.pool.query(question)
+        pool.query(question)
         .then((res)=>{
-            console.log(res);
         })
         .catch((err)=> {
-            console.log(err);
         });
 
         const rsvp = `
@@ -91,12 +75,10 @@ class Setup {
             response character varying(6) NOT NULL       
           );`;
 
-        this.pool.query(rsvp)
+        pool.query(rsvp)
         .then((res)=>{
-            console.log(res);
         })
         .catch((err)=> {
-            console.log(err);
         });
 
         const comment = `
@@ -107,12 +89,24 @@ class Setup {
             comment character varying(500) NOT NULL       
           );`;
 
-        this.pool.query(comment)
+        pool.query(comment)
         .then((res)=>{
-            console.log(res);
         })
         .catch((err)=> {
-            console.log(err);
+        });
+
+        const votes = `
+        CREATE TABLE IF NOT EXISTS votes (
+            id_votes serial PRIMARY KEY,
+            id_user integer,  
+            id_question integer,        
+            votes boolean     
+          );`;
+
+        pool.query(votes)
+        .then((res)=>{
+        })
+        .catch((err)=> {
         });
     }
 }

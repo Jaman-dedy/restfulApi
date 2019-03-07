@@ -12,10 +12,9 @@ const userAuthentication = {
 
     if (!token) {
       return res.status(401).send({
-        message: 'Please input a token'
+        message: 'Unauthorised user'
       });
     }
-
     jwt.verify(token, keys.secret, (err, decoded) => {
       if (err) {
         return res.status(403).send({

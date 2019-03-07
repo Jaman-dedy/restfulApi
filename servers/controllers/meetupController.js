@@ -20,7 +20,7 @@ const meetupController = {
       });
     }
 
-    pool.query('INSERT INTO meetup (location, images, topic, happeningon, tags) VALUES ($1,$2,$3,$4,$5)',
+    pool.query('INSERT INTO meetup (location, images, topic, happeningon, tags) VALUES ($1,$2,$3,$4,$5) RETURNING *',
       [location, images, topic, happeningon, tags], (err, results) => {
         // eslint-disable-next-line prefer-destructuring
         const meetupValidate = validate.meetupValidate;
@@ -35,7 +35,7 @@ const meetupController = {
         } else {
           res.status(201).json({
             status: 201,
-            data: [req.body]
+            data: results.rows
           });
         }
       });
@@ -66,13 +66,8 @@ const meetupController = {
         pool.query('INSERT INTO rsvp (id_meetup, id_user, response) VALUES ($1,$2,$3) RETURNING *',
           [meetupId, req.user.id, response], (err, results) => {
             if (error) {
-              console.log(error);
-              return res.status(400).json({
-                status: 400,
-                error: error.details[0].message
-              });
+             throw error;
             }
-
             res.status(201).json({
               status: 201,
               data: results.rows
@@ -106,13 +101,8 @@ const meetupController = {
         pool.query('INSERT INTO question (id_user, id_meetup, title, body) VALUES ($1,$2,$3,$4) RETURNING *',
           [req.user.id, meetupId, title, body], (err, results) => {
             if (error) {
-              console.log(error);
-              return res.status(400).json({
-                status: 400,
-                error: error.details[0].message
-              });
+              throw error;
             }
-
             res.status(201).json({
               status: 201,
               data: results.rows
@@ -188,6 +178,16 @@ const meetupController = {
     } = req.body;
     const current = dateTime();
 
+    const validateMeetup = validate.meetupValidate;
+    const { error } = validateMeetup(req.body);
+    if (error) {
+      const errorMessage = error.details.map(d => d.message);
+      return res.status(400).send({
+        status: 400,
+        error: errorMessage
+      });
+    }
+
     pool.query(
       'UPDATE meetup SET location = $1, images = $2, topic = $3,happeningon = $4, tags= $5 WHERE id_meetup = $6',
       [location, images, topic, happeningon, tags, meetupId],
@@ -195,7 +195,7 @@ const meetupController = {
         if (err) {
           throw err;
         }
-        if (result.rows.length === 0) {
+        if (result.rowCount === 0) {
           return res.status(404).json({
             status: 404,
             error: 'Meetup not found'

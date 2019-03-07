@@ -6,7 +6,7 @@ import bodyParser from 'body-parser';
 import questionRoutes from './routes/questionRoute';
 import userRoutes from './routes/userRoute';
 import meetupRoutes from './routes/meetupRoute';
-//import db from './config/db';
+import db from './config/db';
 
 
 const app = express();

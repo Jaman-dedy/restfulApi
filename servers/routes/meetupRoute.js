@@ -9,14 +9,13 @@ const router = express.Router();
 
 // Meetup endpoints
 router.post('/', userAuthentication.verifyToken, userAuthentication.verifyAdmin, meetupControl.createMeetup);
-router.post('/:meetupId/rsvps', userAuthentication.verifyToken, meetupControl.createMeetupRsvp);
+router.post('/:meetupId/rsvps', userAuthentication.verifyToken, userAuthentication.verifyAdmin, meetupControl.createMeetupRsvp);
 router.post('/:meetupId/questions', userAuthentication.verifyToken, meetupControl.createMeetupQuestion);
 router.get('/', userAuthentication.verifyToken, meetupControl.getAllMeetup);
 router.get('/upcoming', userAuthentication.verifyToken, meetupControl.getUpcoming);
 router.get('/:meetupId', userAuthentication.verifyToken, meetupControl.getOneMeetup);
 router.get('/:meetupId/questions', userAuthentication.verifyToken, meetupControl.getAllquestion);
-// router.put("/:meetupId", auth.verifyToken, role.role, meetupControl.updateMeetup);
+router.put("/:meetupId", userAuthentication.verifyToken, userAuthentication.verifyAdmin, meetupControl.updateMeetup);
 router.delete('/:meetupId', userAuthentication.verifyToken, userAuthentication.verifyAdmin, meetupControl.deleteMeetup);
-
 
 export default router;
