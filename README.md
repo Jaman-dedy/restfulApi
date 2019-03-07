@@ -1,9 +1,10 @@
+
 # Andela-restfulApi (v1)
 
 [![Coverage Status](https://coveralls.io/repos/github/Jaman-dedy/restfulApi/badge.svg?branch=develop)](https://coveralls.io/github/Jaman-dedy/restfulApi?branch=develop)  [![Build Status](https://travis-ci.org/Jaman-dedy/restfulApi.svg?branch=develop)](https://travis-ci.org/Jaman-dedy/restfulApi)  <a href="https://codeclimate.com/github/Jaman-dedy/restfulApi/maintainability"><img src="https://api.codeclimate.com/v1/badges/fa9a68ad97ec6318c878/maintainability" /></a>
 
 
-Restfulapi project stand for the first backend side of Questioner with no persistance CRUD implmentation. The aim of the project is to create a Resful API using nodejs and express.
+Restfulapi project stand for the backend side of Questioner with  persistance CRUD implmentation. The aim of the project is to create a Resful API using nodejs and express.
 
 * UI Template : [https://jaman-dedy.github.io/Questioner/index.html](https://jaman-dedy.github.io/Questioner/index.html)
 
@@ -93,11 +94,5 @@ For completing this project, we use a large base of ressources, we provide below
 ***
 ### License
 ` MIT © `[Jeand de Dieu AMANI MPANGIRWA](https://github.com/Jaman-dedy)
-
-
-
-
-
-
 
 
