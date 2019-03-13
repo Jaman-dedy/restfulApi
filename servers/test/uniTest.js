@@ -12,7 +12,7 @@ let InvalidToken = 'ThisisAnInvalidToken';
 let userId, meetupId, questionId;
 
 
-describe('Testing user endpoints request', () => {ß
+describe('Testing user endpoints request', () => {
 
   before((done) => {
 
